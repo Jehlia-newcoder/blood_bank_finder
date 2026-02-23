@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "607010515271",
+    "project_id": "blood-bank-finder-46bc3",
+    "storage_bucket": "blood-bank-finder-46bc3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607010515271:android:364b5ccb307ddb82c6c462",
+        "android_client_info": {
+          "package_name": "com.example.blood_bank_finder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrk2-5oEMt29LGA7HGGPdlYspOczeipks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
