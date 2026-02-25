@@ -21,7 +21,7 @@ class _PhLocationPickerState extends State<PhLocationPicker> {
     return Column(
       children: [
         DropdownButtonFormField<String>(
-          value: _selectedIsland,
+          initialValue: _selectedIsland,
           decoration: const InputDecoration(labelText: 'Island Group'),
           items: PhLocationData.islandGroups
               .map((e) => DropdownMenuItem(value: e, child: Text(e)))
@@ -41,7 +41,7 @@ class _PhLocationPickerState extends State<PhLocationPicker> {
         ),
         const SizedBox(height: 16),
         DropdownButtonFormField<String>(
-          value: _selectedCity,
+          initialValue: _selectedCity,
           decoration: const InputDecoration(labelText: 'City'),
           items: PhLocationData.getCitiesForIsland(
             _selectedIsland ?? '',
@@ -62,7 +62,7 @@ class _PhLocationPickerState extends State<PhLocationPicker> {
         ),
         const SizedBox(height: 16),
         DropdownButtonFormField<String>(
-          value: _selectedBarangay,
+          initialValue: _selectedBarangay,
           decoration: const InputDecoration(labelText: 'Barangay'),
           items: PhLocationData.getBarangaysForCity(
             _selectedCity ?? '',

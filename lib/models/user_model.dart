@@ -7,7 +7,7 @@ class UserModel {
   final String firstName;
   final String lastName;
   final String fatherName;
-  final String mobileNumber;
+  final String mobile;
   final String gender;
   final String bloodGroup;
   final String city;
@@ -22,7 +22,7 @@ class UserModel {
     required this.firstName,
     required this.lastName,
     required this.fatherName,
-    required this.mobileNumber,
+    required this.mobile,
     required this.gender,
     required this.bloodGroup,
     required this.city,
@@ -39,7 +39,7 @@ class UserModel {
       firstName: data['firstName'] ?? '',
       lastName: data['lastName'] ?? '',
       fatherName: data['fatherName'] ?? '',
-      mobileNumber: data['mobileNumber'] ?? '',
+      mobile: data['mobile'] ?? '',
       gender: data['gender'] ?? '',
       bloodGroup: data['bloodGroup'] ?? '',
       city: data['city'] ?? '',
@@ -57,7 +57,7 @@ class UserModel {
       'firstName': firstName,
       'lastName': lastName,
       'fatherName': fatherName,
-      'mobileNumber': mobileNumber,
+      'mobile': mobile,
       'gender': gender,
       'bloodGroup': bloodGroup,
       'city': city,

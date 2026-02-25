@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import '../../../models/blood_request_model.dart';
+import '../../../models/hospital_model.dart';
+import '../../../services/database_service.dart';
+import '../../../core/providers/auth_provider.dart';
 
 class DonateBloodScreen extends StatefulWidget {
   const DonateBloodScreen({super.key});
@@ -9,26 +14,28 @@ class DonateBloodScreen extends StatefulWidget {
 }
 
 class _DonateBloodScreenState extends State<DonateBloodScreen> {
+  final DatabaseService _db = DatabaseService();
   int _currentStep = 0;
-  DateTime? _lastDonationDate;
-  final _weightController = TextEditingController();
-  final _ageController = TextEditingController();
-  final _illnessController = TextEditingController();
-  String? _selectedHospital;
+  String? _selectedBloodType;
+  HospitalModel? _selectedHospital;
+  final _unitsController = TextEditingController(text: '1.0');
+  final _contactController = TextEditingController();
   bool _isSworn = false;
 
   @override
   Widget build(BuildContext context) {
+    final auth = context.read<AuthProvider>();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Donate Blood')),
       body: Stepper(
         type: StepperType.vertical,
         currentStep: _currentStep,
         onStepContinue: () {
-          if (_currentStep < 4) {
+          if (_currentStep < 3) {
             setState(() => _currentStep++);
           } else {
-            _submitDonation();
+            _submitDonation(auth);
           }
         },
         onStepCancel: () {
@@ -36,109 +43,78 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
         },
         steps: [
           Step(
-            title: const Text('Eligibility Check'),
+            title: const Text('Select Blood Type'),
             isActive: _currentStep >= 0,
-            content: Column(
-              children: [
-                ListTile(
-                  title: const Text('Last Donation Date'),
-                  subtitle: Text(
-                    _lastDonationDate == null
-                        ? 'Not selected'
-                        : DateFormat('yyyy-MM-dd').format(_lastDonationDate!),
-                  ),
-                  trailing: const Icon(Icons.calendar_today),
-                  onTap: () async {
-                    final date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime.now(),
-                    );
-                    if (date != null) setState(() => _lastDonationDate = date);
-                  },
-                ),
-                TextField(
-                  controller: _weightController,
-                  decoration: const InputDecoration(labelText: 'Weight (kg)'),
-                  keyboardType: TextInputType.number,
-                ),
-                TextField(
-                  controller: _ageController,
-                  decoration: const InputDecoration(labelText: 'Age'),
-                  keyboardType: TextInputType.number,
-                ),
-              ],
-            ),
-          ),
-          Step(
-            title: const Text('Medical History'),
-            isActive: _currentStep >= 1,
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Do you have any current illnesses or medical conditions? (e.g., Fever, Hypertension, Diabetes, etc.)',
-                  style: TextStyle(fontSize: 14),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: _illnessController,
-                  maxLines: 3,
-                  decoration: const InputDecoration(
-                    labelText: 'Medical Conditions / Illnesses',
-                    hintText: 'Enter "None" if healthy',
-                    alignLabelWithHint: true,
-                  ),
-                ),
-              ],
+            content: DropdownButtonFormField<String>(
+              initialValue: _selectedBloodType,
+              items: [
+                'A+',
+                'A-',
+                'B+',
+                'B-',
+                'O+',
+                'O-',
+                'AB+',
+                'AB-',
+              ].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+              onChanged: (v) => setState(() => _selectedBloodType = v),
+              decoration: const InputDecoration(labelText: 'Your Blood Type'),
             ),
           ),
           Step(
             title: const Text('Select Hospital'),
-            isActive: _currentStep >= 2,
-            content: DropdownButtonFormField<String>(
-              value: _selectedHospital,
-              decoration: const InputDecoration(labelText: 'Hospital'),
-              items: [
-                'St. Luke\'s Medical Center',
-                'Cebu Doctors\' Hospital',
-                'Davao Doctors Hospital',
-              ].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-              onChanged: (v) => setState(() => _selectedHospital = v),
+            isActive: _currentStep >= 1,
+            content: StreamBuilder<List<HospitalModel>>(
+              stream: _db.streamHospitals(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const CircularProgressIndicator();
+                final hospitals = snapshot.data!;
+                return DropdownButtonFormField<HospitalModel>(
+                  initialValue: _selectedHospital,
+                  items: hospitals
+                      .map(
+                        (h) => DropdownMenuItem(value: h, child: Text(h.name)),
+                      )
+                      .toList(),
+                  onChanged: (v) => setState(() => _selectedHospital = v),
+                  decoration: const InputDecoration(
+                    labelText: 'Where to donate?',
+                  ),
+                );
+              },
             ),
           ),
           Step(
-            title: const Text('Truth Declaration'),
-            isActive: _currentStep >= 3,
+            title: const Text('Details'),
+            isActive: _currentStep >= 2,
             content: Column(
               children: [
-                const Text(
-                  'Safety is our priority. Please confirm the accuracy of your information.',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
-                CheckboxListTile(
-                  title: const Text(
-                    'I solemnly swear that all information provided is true and correct to the best of my knowledge.',
-                    style: TextStyle(fontSize: 13),
+                TextField(
+                  controller: _unitsController,
+                  decoration: const InputDecoration(
+                    labelText: 'Quantity (Units)',
                   ),
-                  activeColor: Colors.redAccent,
-                  value: _isSworn,
-                  onChanged: (v) => setState(() => _isSworn = v ?? false),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _contactController,
+                  decoration: const InputDecoration(
+                    labelText: 'Contact Number',
+                  ),
+                  keyboardType: TextInputType.phone,
                 ),
               ],
             ),
           ),
           Step(
-            title: const Text('Confirmation'),
-            isActive: _currentStep >= 4,
-            state: _isSworn ? StepState.complete : StepState.disabled,
-            content: Text(
-              _isSworn
-                  ? 'Please confirm that the information provided is correct. We will contact you shortly to schedule your appointment.'
-                  : 'You must check the truth declaration in the previous step to proceed.',
-              style: TextStyle(color: _isSworn ? Colors.black : Colors.red),
+            title: const Text('Declaration'),
+            isActive: _currentStep >= 3,
+            content: CheckboxListTile(
+              title: const Text(
+                'I swear that the information provided is true.',
+              ),
+              value: _isSworn,
+              onChanged: (v) => setState(() => _isSworn = v ?? false),
             ),
           ),
         ],
@@ -146,21 +122,29 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
     );
   }
 
-  void _submitDonation() {
-    if (!_isSworn) return;
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Success'),
-        content: const Text('Your donation request has been submitted.'),
-        actions: [
-          TextButton(
-            onPressed: () =>
-                Navigator.popUntil(context, (route) => route.isFirst),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
+  void _submitDonation(AuthProvider auth) async {
+    if (!_isSworn || _selectedHospital == null || _selectedBloodType == null) {
+      return;
+    }
+
+    final request = BloodRequestModel(
+      userId: auth.user!.uid,
+      userName: '${auth.user!.firstName} ${auth.user!.lastName}',
+      type: 'Donate',
+      bloodType: _selectedBloodType!,
+      status: 'pending',
+      hospitalId: _selectedHospital!.id!,
+      hospitalName: _selectedHospital!.name,
+      contactNumber: _contactController.text,
+      quantity: double.tryParse(_unitsController.text) ?? 1.0,
+      createdAt: DateTime.now(),
+    );
+
+    await _db.createBloodRequest(request);
+    if (!mounted) return;
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Donation request submitted!')),
     );
   }
 }

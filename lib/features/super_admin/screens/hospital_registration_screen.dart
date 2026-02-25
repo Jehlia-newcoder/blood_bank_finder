@@ -59,7 +59,7 @@ class _HospitalRegistrationScreenState
               subtitle: const Text(
                 'Hospital will be visible in search results',
               ),
-              activeColor: Colors.redAccent,
+              activeThumbColor: Colors.redAccent,
               value: _isActive,
               onChanged: (v) => setState(() => _isActive = v),
             ),

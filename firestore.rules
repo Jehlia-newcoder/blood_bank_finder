@@ -1,43 +1,54 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Function to check if user is admin or superadmin
-    function isAdmin() {
-      return request.auth != null && 
-             (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin');
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    function isSuperAdmin() {
+      return isAuthenticated() && getUserData().role == 'superadmin';
+    }
+    
+    function isHospitalAdmin() {
+      return isAuthenticated() && getUserData().role == 'admin';
     }
 
     // Users Collection
     match /users/{userId} {
-      allow read, write: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isSuperAdmin());
     }
 
     // Hospitals Collection
     match /hospitals/{hospitalId} {
-      allow read: if true; // Publicly readable
-      allow write: if isAdmin();
+      allow read: if true; // Publicly searchable
+      allow write: if isSuperAdmin();
       
       // Inventory Sub-collection
-      match /inventory/{item} {
+      match /inventory/{type} {
         allow read: if true;
-        allow write: if isAdmin();
+        allow write: if isHospitalAdmin() && request.auth.uid == hospitalId;
       }
     }
 
     // Blood Requests Collection
-    match /Blood_requests/{requestId} {
-      allow read: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
+    match /blood_requests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isHospitalAdmin() || isSuperAdmin();
     }
 
     // Notifications Collection
-    match /notifications/{notificationId} {
-      allow read, update: if request.auth != null && request.auth.uid == resource.data.userId;
-      allow create, delete: if isAdmin();
+    match /notifications/{notifId} {
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      allow create: if isHospitalAdmin() || isSuperAdmin();
     }
   }
 }

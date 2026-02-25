@@ -1,98 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../models/blood_request_model.dart';
+import '../../../services/database_service.dart';
+import '../../../core/providers/auth_provider.dart';
+import '../widgets/hospital_admin_drawer.dart';
 
 class BloodRequestsListScreen extends StatelessWidget {
   const BloodRequestsListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> requests = [
-      {
-        'patient': 'Jane Smith',
-        'type': 'O+',
-        'units': '2',
-        'status': 'Pending',
-      },
-      {
-        'patient': 'Bob Wilson',
-        'type': 'AB-',
-        'units': '1',
-        'status': 'Completed',
-      },
-      {
-        'patient': 'Alice Brown',
-        'type': 'B+',
-        'units': '3',
-        'status': 'Urgent',
-      },
-    ];
+    final auth = context.read<AuthProvider>();
+    final hospitalId = auth.user?.uid;
+    final DatabaseService db = DatabaseService();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Blood Requests')),
-      body: ListView.builder(
-        itemCount: requests.length,
-        itemBuilder: (context, index) {
-          final r = requests[index];
-          final color = r['status'] == 'Urgent'
-              ? Colors.red
-              : (r['status'] == 'Pending' ? Colors.orange : Colors.green);
+      appBar: AppBar(title: const Text('Hospital Requests')),
+      drawer: const HospitalAdminDrawer(),
+      body: hospitalId == null
+          ? const Center(child: Text('Unauthorized'))
+          : StreamBuilder<List<BloodRequestModel>>(
+              stream: db.streamHospitalRequests(hospitalId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text('No requests for this hospital.'),
+                  );
+                }
 
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: ListTile(
-              title: Text(r['patient']!),
-              subtitle: Text('Type: ${r['type']} • ${r['units']} Units'),
-              trailing: Chip(
-                label: Text(
-                  r['status']!,
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                backgroundColor: color,
-              ),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Request Details',
-                          style: Theme.of(context).textTheme.titleLarge,
+                final requests = snapshot.data!;
+                return ListView.builder(
+                  itemCount: requests.length,
+                  itemBuilder: (context, index) {
+                    final req = requests[index];
+                    final isPending = req.status == 'pending';
+
+                    return Card(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: ListTile(
+                        title: Text('${req.userName} (${req.bloodType})'),
+                        subtitle: Text(
+                          'Type: ${req.type} | Contact: ${req.contactNumber}',
                         ),
-                        const Divider(),
-                        Text('Patient: ${r['patient']}'),
-                        Text('Blood Type: ${r['type']}'),
-                        Text('Quantity: ${r['units']} units'),
-                        Text('Status: ${r['status']}'),
-                        const SizedBox(height: 20),
-                        Row(
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Expanded(
-                              child: OutlinedButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('Close'),
+                            if (isPending) ...[
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                ),
+                                onPressed: () =>
+                                    db.updateRequestStatus(req.id!, 'approved'),
                               ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('Approve'),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () =>
+                                    db.updateRequestStatus(req.id!, 'rejected'),
                               ),
-                            ),
+                            ] else
+                              Chip(
+                                label: Text(
+                                  req.status.toUpperCase(),
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                                backgroundColor: _getStatusColor(req.status),
+                              ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 );
               },
             ),
-          );
-        },
-      ),
     );
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'approved':
+        return Colors.green[100]!;
+      case 'rejected':
+        return Colors.red[100]!;
+      case 'completed':
+        return Colors.blue[100]!;
+      default:
+        return Colors.grey[100]!;
+    }
   }
 }

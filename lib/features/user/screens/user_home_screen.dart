@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/providers/auth_provider.dart';
-import '../../../shared/widgets/app_drawers.dart';
+import '../widgets/user_drawer.dart';
 import 'find_blood_bank_screen.dart';
 import 'donate_blood_screen.dart';
 import 'request_blood_screen.dart';
@@ -13,14 +13,14 @@ class UserHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Blood Bank Finder')),
-      drawer: const AppDrawer(role: UserRole.regular),
+      drawer: const UserDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome, ${context.watch<AuthProvider>().user?.name}',
+              'Welcome, ${context.watch<AuthProvider>().user?.firstName} ${context.watch<AuthProvider>().user?.lastName}',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 24),

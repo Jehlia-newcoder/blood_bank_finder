@@ -27,8 +27,17 @@ class _SignupScreenState extends State<SignupScreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final auth = context.read<AuthProvider>();
-      await auth.signup(_formData);
+      final error = await auth.signup(_formData, _formData['password']);
+
       if (!mounted) return;
+
+      if (error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error), backgroundColor: Colors.red),
+        );
+        return;
+      }
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const UserHomeScreen()),
@@ -151,7 +160,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: DropdownButtonFormField<String>(
-        value: _formData[key],
+        initialValue: _formData[key],
         decoration: InputDecoration(labelText: label),
         items: items
             .map((e) => DropdownMenuItem(value: e, child: Text(e)))

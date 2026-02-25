@@ -24,19 +24,29 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() async {
     if (_formKey.currentState!.validate()) {
       final auth = context.read<AuthProvider>();
-      await auth.login(_emailController.text, _passwordController.text);
+      final error = await auth.login(
+        _emailController.text,
+        _passwordController.text,
+      );
 
       if (!mounted) return;
 
+      if (error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error), backgroundColor: Colors.red),
+        );
+        return;
+      }
+
       Widget nextScreen;
       switch (auth.user?.role) {
-        case UserRole.superAdmin:
+        case 'superadmin':
           nextScreen = const SuperAdminDashboard();
           break;
-        case UserRole.hospitalAdmin:
+        case 'admin':
           nextScreen = const HospitalAdminDashboard();
           break;
-        case UserRole.regular:
+        case 'user':
         default:
           nextScreen = const UserHomeScreen();
           break;

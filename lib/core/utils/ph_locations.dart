@@ -29,4 +29,7 @@ class PhLocationData {
   static List<String> getCitiesForIsland(String island) => cities[island] ?? [];
   static List<String> getBarangaysForCity(String city) =>
       barangays[city] ?? ['Barangay 1', 'Barangay 2', 'Barangay 3'];
+
+  static List<String> get allCities =>
+      cities.values.expand((element) => element).toList();
 }
