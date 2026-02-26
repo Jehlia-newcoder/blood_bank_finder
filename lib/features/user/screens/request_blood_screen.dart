@@ -72,13 +72,23 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
               CustomTextField(
                 label: 'Quantity (Units)',
                 controller: _unitsController,
-                keyboardType: TextInputType.number,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                validator: (v) {
+                  if (v == null || v.isEmpty) return 'Required';
+                  final n = double.tryParse(v);
+                  if (n == null || n <= 0) return 'Must be > 0';
+                  return null;
+                },
               ),
               CustomTextField(
                 label: 'Contact Details',
                 controller: _contactController,
                 prefixIcon: Icons.phone,
                 keyboardType: TextInputType.phone,
+                validator: (v) =>
+                    v == null || v.isEmpty ? 'Contact required' : null,
               ),
               const SizedBox(height: 16),
               CheckboxListTile(

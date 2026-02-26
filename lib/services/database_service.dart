@@ -113,6 +113,52 @@ class DatabaseService {
     });
   }
 
+  Future<void> updateRequestStatusWithNotification({
+    required BloodRequestModel request,
+    required String newStatus,
+  }) async {
+    // 1. Update the request status
+    await updateRequestStatus(request.id!, newStatus);
+
+    // 2. Create a notification for the user
+    String title = '';
+    String body = '';
+    String type = '';
+
+    if (newStatus == 'approved') {
+      title = 'Request Approved!';
+      body =
+          'Your ${request.type} for ${request.bloodType} at ${request.hospitalName} has been approved.';
+      type = 'request_approved';
+    } else if (newStatus == 'rejected') {
+      title = 'Request Rejected';
+      body =
+          'Sorry, your ${request.type} for ${request.bloodType} at ${request.hospitalName} was rejected.';
+      type = 'request_rejected';
+    }
+
+    if (title.isNotEmpty) {
+      final message = '$title: $body';
+      final notification = NotificationModel(
+        userId: request.userId,
+        message: message,
+        isRead: false,
+        createdAt: DateTime.now(),
+      );
+
+      // Since NotificationModel doesn't have a 'type' field but toMap might need it
+      // depends on how we want to handle the UI icons.
+      // Looking at the model, it doesn't have 'type'.
+      // I'll add 'type' to the Firestore document manually by overriding toMap or using a custom map.
+      final data = notification.toMap();
+      data['type'] = type;
+      data['title'] = title; // For UI compatibility in NotificationsScreen
+      data['body'] = body; // For UI compatibility in NotificationsScreen
+
+      await _db.collection('notifications').add(data);
+    }
+  }
+
   // --- Inventory Repository ---
   Future<void> updateInventory(
     String hospitalId,

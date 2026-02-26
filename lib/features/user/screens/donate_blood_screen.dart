@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import '../../../models/blood_request_model.dart';
 import '../../../models/hospital_model.dart';
 import '../../../services/database_service.dart';
 import '../../../core/providers/auth_provider.dart';
+import '../../../shared/widgets/custom_text_field.dart';
 
 class DonateBloodScreen extends StatefulWidget {
   const DonateBloodScreen({super.key});
@@ -20,6 +20,7 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
   HospitalModel? _selectedHospital;
   final _unitsController = TextEditingController(text: '1.0');
   final _contactController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool _isSworn = false;
 
   @override
@@ -32,6 +33,10 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
         type: StepperType.vertical,
         currentStep: _currentStep,
         onStepContinue: () {
+          if (_currentStep == 2) {
+            if (!_formKey.currentState!.validate()) return;
+          }
+
           if (_currentStep < 3) {
             setState(() => _currentStep++);
           } else {
@@ -87,23 +92,33 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
           Step(
             title: const Text('Details'),
             isActive: _currentStep >= 2,
-            content: Column(
-              children: [
-                TextField(
-                  controller: _unitsController,
-                  decoration: const InputDecoration(
-                    labelText: 'Quantity (Units)',
+            content: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  CustomTextField(
+                    label: 'Quantity (Units)',
+                    controller: _unitsController,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    validator: (v) {
+                      if (v == null || v.isEmpty) return 'Required';
+                      final n = double.tryParse(v);
+                      if (n == null || n <= 0) return 'Must be > 0';
+                      return null;
+                    },
                   ),
-                  keyboardType: TextInputType.number,
-                ),
-                TextField(
-                  controller: _contactController,
-                  decoration: const InputDecoration(
-                    labelText: 'Contact Number',
+                  CustomTextField(
+                    label: 'Contact Number',
+                    controller: _contactController,
+                    prefixIcon: Icons.phone,
+                    keyboardType: TextInputType.phone,
+                    validator: (v) =>
+                        v == null || v.isEmpty ? 'Contact required' : null,
                   ),
-                  keyboardType: TextInputType.phone,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Step(

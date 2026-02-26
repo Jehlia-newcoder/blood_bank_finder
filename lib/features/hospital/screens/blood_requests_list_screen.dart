@@ -58,7 +58,10 @@ class BloodRequestsListScreen extends StatelessWidget {
                                   color: Colors.green,
                                 ),
                                 onPressed: () =>
-                                    db.updateRequestStatus(req.id!, 'approved'),
+                                    db.updateRequestStatusWithNotification(
+                                      request: req,
+                                      newStatus: 'approved',
+                                    ),
                               ),
                               IconButton(
                                 icon: const Icon(
@@ -66,7 +69,10 @@ class BloodRequestsListScreen extends StatelessWidget {
                                   color: Colors.red,
                                 ),
                                 onPressed: () =>
-                                    db.updateRequestStatus(req.id!, 'rejected'),
+                                    db.updateRequestStatusWithNotification(
+                                      request: req,
+                                      newStatus: 'rejected',
+                                    ),
                               ),
                             ] else
                               Chip(
