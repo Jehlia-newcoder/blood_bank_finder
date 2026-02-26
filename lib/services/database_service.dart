@@ -50,19 +50,24 @@ class DatabaseService {
   }
 
   Stream<List<HospitalModel>> streamHospitals({
+    String? islandGroup,
     String? city,
-    String? bloodType,
+    String? barangay,
   }) {
     Query query = _db
         .collection('hospitals')
         .where('isActive', isEqualTo: true);
 
+    if (islandGroup != null && islandGroup.isNotEmpty) {
+      query = query.where('islandGroup', isEqualTo: islandGroup);
+    }
+
     if (city != null && city.isNotEmpty) {
       query = query.where('city', isEqualTo: city);
     }
 
-    if (bloodType != null && bloodType.isNotEmpty) {
-      query = query.where('availableBloodTypes', arrayContains: bloodType);
+    if (barangay != null && barangay.isNotEmpty) {
+      query = query.where('barangay', isEqualTo: barangay);
     }
 
     return query.snapshots().map((snapshot) {
