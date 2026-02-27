@@ -5,6 +5,7 @@ import '../../../core/providers/auth_provider.dart';
 import '../../../services/database_service.dart';
 import '../../../models/blood_request_model.dart';
 import '../../../models/inventory_model.dart';
+import '../widgets/no_hospital_assigned.dart';
 
 class HospitalAdminDashboard extends StatelessWidget {
   const HospitalAdminDashboard({super.key});
@@ -12,14 +13,14 @@ class HospitalAdminDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = context.read<AuthProvider>();
-    final hospitalId = auth.user?.uid;
+    final hospitalId = auth.user?.hospitalId; // Changed from .uid
     final DatabaseService db = DatabaseService();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Hospital Admin Dashboard')),
       drawer: const HospitalAdminDrawer(),
-      body: hospitalId == null
-          ? const Center(child: Text('Unauthorized'))
+      body: hospitalId == null || hospitalId.isEmpty
+          ? const NoHospitalAssigned()
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(

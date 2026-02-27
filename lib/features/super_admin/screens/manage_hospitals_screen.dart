@@ -22,8 +22,30 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
       appBar: AppBar(title: const Text('Manage Hospitals')),
       drawer: const SuperAdminDrawer(),
       body: StreamBuilder<List<HospitalModel>>(
-        stream: _db.streamHospitals(),
+        stream: _db.streamHospitals(allowAll: true),
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Error: ${snapshot.error}',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }

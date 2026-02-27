@@ -77,8 +77,10 @@ class _SplashScreenState extends State<SplashScreen>
             child: Image.asset(
               'assets/images/main.webp',
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) =>
-                  Container(color: Colors.white),
+              errorBuilder: (context, error, stackTrace) {
+                debugPrint('Asset Error: $error');
+                return Container(color: Colors.red[900]);
+              },
             ),
           ),
           // Gradient Overlay for readability

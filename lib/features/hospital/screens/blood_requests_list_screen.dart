@@ -4,6 +4,7 @@ import '../../../models/blood_request_model.dart';
 import '../../../services/database_service.dart';
 import '../../../core/providers/auth_provider.dart';
 import '../widgets/hospital_admin_drawer.dart';
+import '../widgets/no_hospital_assigned.dart';
 
 class BloodRequestsListScreen extends StatelessWidget {
   const BloodRequestsListScreen({super.key});
@@ -11,14 +12,14 @@ class BloodRequestsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = context.read<AuthProvider>();
-    final hospitalId = auth.user?.uid;
+    final hospitalId = auth.user?.hospitalId; // Use hospitalId instead of uid
     final DatabaseService db = DatabaseService();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Hospital Requests')),
       drawer: const HospitalAdminDrawer(),
-      body: hospitalId == null
-          ? const Center(child: Text('Unauthorized'))
+      body: hospitalId == null || hospitalId.isEmpty
+          ? const NoHospitalAssigned()
           : StreamBuilder<List<BloodRequestModel>>(
               stream: db.streamHospitalRequests(hospitalId),
               builder: (context, snapshot) {

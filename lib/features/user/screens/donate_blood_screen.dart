@@ -15,6 +15,7 @@ class DonateBloodScreen extends StatefulWidget {
 
 class _DonateBloodScreenState extends State<DonateBloodScreen> {
   final DatabaseService _db = DatabaseService();
+  late Stream<List<HospitalModel>> _hospitalsStream;
   int _currentStep = 0;
   String? _selectedBloodType;
   HospitalModel? _selectedHospital;
@@ -22,6 +23,12 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
   final _contactController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isSworn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _hospitalsStream = _db.streamHospitals();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +77,14 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
             title: const Text('Select Hospital'),
             isActive: _currentStep >= 1,
             content: StreamBuilder<List<HospitalModel>>(
-              stream: _db.streamHospitals(),
+              stream: _hospitalsStream,
               builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(
+                    'Error loading hospitals: ${snapshot.error}',
+                    style: const TextStyle(color: Colors.red),
+                  );
+                }
                 if (!snapshot.hasData) return const CircularProgressIndicator();
                 final hospitals = snapshot.data!;
                 return DropdownButtonFormField<HospitalModel>(

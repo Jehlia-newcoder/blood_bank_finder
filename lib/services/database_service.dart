@@ -40,6 +40,17 @@ class DatabaseService {
     await _db.collection('users').doc(uid).update({'isBanned': isBanned});
   }
 
+  Future<void> updateUserRoleAndHospital({
+    required String uid,
+    required String role,
+    String? hospitalId,
+  }) async {
+    await _db.collection('users').doc(uid).update({
+      'role': role,
+      'hospitalId': hospitalId,
+    });
+  }
+
   // --- Hospitals Repository ---
   Future<void> addHospital(HospitalModel hospital) async {
     await _db.collection('hospitals').add(hospital.toMap());
@@ -53,10 +64,13 @@ class DatabaseService {
     String? islandGroup,
     String? city,
     String? barangay,
+    bool allowAll = false, // Added to show inactive hospitals to Super Admin
   }) {
-    Query query = _db
-        .collection('hospitals')
-        .where('isActive', isEqualTo: true);
+    Query query = _db.collection('hospitals');
+
+    if (!allowAll) {
+      query = query.where('isActive', isEqualTo: true);
+    }
 
     if (islandGroup != null && islandGroup.isNotEmpty) {
       query = query.where('islandGroup', isEqualTo: islandGroup);
