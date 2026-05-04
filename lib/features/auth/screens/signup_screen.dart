@@ -10,6 +10,13 @@ import 'landing_screen.dart';
 import '../../user/screens/user_home_screen.dart';
 import 'otp_screen.dart';
 
+// Methods in this file:
+// - _signup()
+// - _completeSignup()
+// - build()
+// - PhLocationPicker()
+// - _buildDropdown()
+
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 

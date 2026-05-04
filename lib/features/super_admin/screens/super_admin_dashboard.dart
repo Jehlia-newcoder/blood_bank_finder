@@ -10,6 +10,15 @@ import '../presentation/providers/super_admin_provider.dart';
 import '../../hospital/presentation/providers/hospital_provider.dart';
 import '../../blood_request/presentation/providers/blood_request_provider.dart';
 
+// Methods in this file:
+// - build()
+// - _buildHeader()
+// - _buildMetricTile()
+// - _buildSectionTitle()
+// - _buildDemandSupplyChart()
+// - _buildGrowthChart()
+// - _buildGlobalInventorySection()
+
 class SuperAdminDashboard extends StatelessWidget {
   const SuperAdminDashboard({super.key});
 

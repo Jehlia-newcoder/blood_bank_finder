@@ -8,6 +8,17 @@ import '../domain/entities/audit_log.dart';
 import '../presentation/providers/super_admin_provider.dart';
 import '../widgets/super_admin_drawer.dart';
 
+// Methods in this file:
+// - build()
+// - _buildSearchAndFilter()
+// - SingleChildScrollView()
+// - _buildUserCard()
+// - _roleBadge()
+// - _banToggle()
+// - _showEditRoleDialog()
+// - setModalState()
+// - ElevatedButton()
+
 class ManageUsersScreen extends StatefulWidget {
   const ManageUsersScreen({super.key});
 

@@ -4,6 +4,16 @@ import '../../../core/providers/auth_provider.dart';
 import '../../auth/domain/entities/user.dart';
 import '../../super_admin/presentation/providers/super_admin_provider.dart';
 
+// Methods in this file:
+// - initState()
+// - dispose()
+// - _saveProfile()
+// - build()
+// - setState()
+// - SizedBox()
+// - _buildProfileItem()
+// - _buildBloodGroupCard()
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 

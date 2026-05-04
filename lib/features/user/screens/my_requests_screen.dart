@@ -7,6 +7,12 @@ import '../../hospital/domain/entities/hospital.dart';
 import '../../hospital/presentation/providers/hospital_provider.dart';
 import '../../../core/providers/auth_provider.dart';
 
+// Methods in this file:
+// - build()
+// - _statusColor()
+// - _statusChip()
+// - _buildInstructionSection()
+
 class MyRequestsScreen extends StatelessWidget {
   const MyRequestsScreen({super.key});
 

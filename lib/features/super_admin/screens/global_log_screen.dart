@@ -5,6 +5,14 @@ import '../../blood_request/presentation/providers/blood_request_provider.dart';
 import '../widgets/super_admin_drawer.dart';
 import 'package:intl/intl.dart';
 
+// Methods in this file:
+// - build()
+// - _buildAuditHeader()
+// - _buildTimelineItem()
+// - _statusTag()
+// - _formatRelativeTime()
+// - _buildEmptyState()
+
 class GlobalLogScreen extends StatelessWidget {
   const GlobalLogScreen({super.key});
 

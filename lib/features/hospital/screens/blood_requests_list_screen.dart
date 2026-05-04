@@ -14,6 +14,28 @@ import '../widgets/hospital_admin_drawer.dart';
 import '../widgets/no_hospital_assigned.dart';
 import '../../hospital/domain/entities/inventory.dart';
 
+// Methods in this file:
+// - build()
+// - _buildFilterRow()
+// - _showDetailedRequestView()
+// - _buildTypeIndicator()
+// - _buildRequestCard()
+// - _buildInventoryInsight()
+// - _buildProfileCard()
+// - _profileRow()
+// - _buildDetailsCard()
+// - _buildMedicalContextCard()
+// - _openChat()
+// - _statusChip()
+// - _buildUpdateStatusSection()
+// - ElevatedButton()
+// - _swipeBg()
+// - _detailRow()
+// - _sectionTitle()
+// - _getStatusColor()
+// - _formatDate()
+// - _buildErrorView()
+
 class BloodRequestsListScreen extends StatefulWidget {
   const BloodRequestsListScreen({super.key});
 

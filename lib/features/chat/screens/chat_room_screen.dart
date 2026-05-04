@@ -4,6 +4,12 @@ import '../../../core/providers/auth_provider.dart';
 import '../presentation/providers/chat_provider.dart';
 import '../domain/entities/message.dart';
 
+// Methods in this file:
+// - _sendMessage()
+// - build()
+// - _buildMessageBubble()
+// - _buildMessageInput()
+
 class ChatRoomScreen extends StatefulWidget {
   final String chatRoomId;
   final String otherParticipantName;

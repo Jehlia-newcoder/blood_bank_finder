@@ -9,6 +9,23 @@ import '../domain/entities/audit_log.dart';
 import '../presentation/providers/super_admin_provider.dart';
 import '../widgets/super_admin_drawer.dart';
 
+// Methods in this file:
+// - build()
+// - _buildSearchAndFilter()
+// - Row()
+// - _displayHospitalModal()
+// - _buildHospitalCard()
+// - _statusBadge()
+// - _infoItem()
+// - _inventorySnapshot()
+// - _detailSection()
+// - _detailItem()
+// - _confirmDelete()
+// - TextButton()
+// - _showHospitalDialog()
+// - setModalState()
+// - CustomTextField()
+
 class ManageHospitalsScreen extends StatefulWidget {
   const ManageHospitalsScreen({super.key});
 

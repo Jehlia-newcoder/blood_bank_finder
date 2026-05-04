@@ -5,6 +5,10 @@ import '../presentation/providers/chat_provider.dart';
 import '../domain/entities/chat_room.dart';
 import 'chat_room_screen.dart';
 
+// Methods in this file:
+// - build()
+// - _formatDate()
+
 class ChatListScreen extends StatelessWidget {
   const ChatListScreen({super.key});
 

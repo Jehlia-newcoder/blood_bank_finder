@@ -3,6 +3,13 @@ import 'package:provider/provider.dart';
 import '../../../core/providers/auth_provider.dart';
 import '../../../shared/widgets/custom_button.dart';
 
+// Methods in this file:
+// - dispose()
+// - _verify()
+// - _resend()
+// - build()
+// - _buildOtpBox()
+
 class OtpScreen extends StatefulWidget {
   final String email;
   final Function() onVerified;

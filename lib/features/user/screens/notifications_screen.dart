@@ -7,6 +7,16 @@ import '../../blood_request/presentation/providers/blood_request_provider.dart';
 import '../../notification/domain/entities/notification.dart';
 import '../../../core/providers/auth_provider.dart';
 
+// Methods in this file:
+// - build()
+// - GestureDetector()
+// - _showNotificationDetails()
+// - _detailRow()
+// - _getColorForType()
+// - _formatRelativeTime()
+// - _getIconForType()
+// - _formatDate()
+
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 

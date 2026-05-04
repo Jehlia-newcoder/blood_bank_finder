@@ -8,6 +8,15 @@ import '../../../core/services/location_service.dart';
 import '../widgets/hospital_admin_drawer.dart';
 import '../widgets/no_hospital_assigned.dart';
 
+// Methods in this file:
+// - initState()
+// - _loadHospital()
+// - setState()
+// - dispose()
+// - build()
+// - CustomTextField()
+// - _saveProfile()
+
 class HospitalProfileScreen extends StatefulWidget {
   const HospitalProfileScreen({super.key});
 

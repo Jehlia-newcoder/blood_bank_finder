@@ -10,6 +10,14 @@ import '../domain/entities/inventory.dart';
 import '../presentation/providers/hospital_provider.dart';
 import '../widgets/no_hospital_assigned.dart';
 
+// Methods in this file:
+// - build()
+// - _buildHeader()
+// - _buildStatCardPlain()
+// - _buildActivityChart()
+// - _buildAlertsList()
+// - _buildInventorySummaryPlain()
+
 class HospitalAdminDashboard extends StatelessWidget {
   const HospitalAdminDashboard({super.key});
 

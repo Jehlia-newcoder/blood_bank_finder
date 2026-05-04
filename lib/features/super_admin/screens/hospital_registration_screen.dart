@@ -3,6 +3,11 @@ import '../../../shared/widgets/custom_button.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../../../shared/widgets/location_picker.dart';
 
+// Methods in this file:
+// - build()
+// - PhLocationPicker()
+// - CustomButton()
+
 class HospitalRegistrationScreen extends StatefulWidget {
   const HospitalRegistrationScreen({super.key});
 

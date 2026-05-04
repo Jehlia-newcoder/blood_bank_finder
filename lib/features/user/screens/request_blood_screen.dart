@@ -8,6 +8,12 @@ import '../../../shared/widgets/custom_text_field.dart';
 import '../../../shared/widgets/custom_button.dart';
 import '../../../shared/widgets/hospital_picker_sheet.dart';
 
+// Methods in this file:
+// - initState()
+// - _submitRequest()
+// - build()
+// - InkWell()
+
 class RequestBloodScreen extends StatefulWidget {
   const RequestBloodScreen({super.key});
 

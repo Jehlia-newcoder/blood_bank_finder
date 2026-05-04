@@ -8,6 +8,12 @@ import '../widgets/no_hospital_assigned.dart';
 import '../../super_admin/domain/entities/audit_log.dart';
 import '../../super_admin/presentation/providers/super_admin_provider.dart';
 
+// Methods in this file:
+// - dispose()
+// - _getController()
+// - _updateStock()
+// - build()
+
 class InventoryManagementScreen extends StatefulWidget {
   const InventoryManagementScreen({super.key});
 

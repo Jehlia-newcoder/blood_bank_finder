@@ -7,6 +7,14 @@ import '../../user/screens/user_home_screen.dart';
 import '../../super_admin/screens/super_admin_dashboard.dart';
 import '../../hospital/screens/hospital_admin_dashboard.dart';
 
+// Methods in this file:
+// - initState()
+// - dispose()
+// - build()
+// - Scaffold()
+// - GestureDetector()
+// - Center()
+
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
 

@@ -11,6 +11,12 @@ import '../../chat/presentation/providers/chat_provider.dart';
 import '../../chat/screens/chat_room_screen.dart';
 import '../../hospital/domain/entities/inventory.dart';
 
+// _initLocation() - Location Service
+// - _calculateDistance()- Location Service
+// Hospital Map View - Hospital Map View
+// showHospitalDetails() - Hospital Provider
+// showLocationPicker()- Location Service
+
 class FindBloodBankScreen extends StatefulWidget {
   const FindBloodBankScreen({super.key});
 
@@ -26,12 +32,11 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
   String? _selectedRegion;
   String? _selectedCity;
   String? _selectedBarangay;
-  String? _selectedBloodType; 
-  bool _isMapView = false; 
+  String? _selectedBloodType;
+  bool _isMapView = false;
   LatLng? _mapCenter;
   double _mapZoom = 12;
   Position? _userPosition;
-
 
   @override
   void initState() {
@@ -120,23 +125,25 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                   child: Row(
                     children: [
                       ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
-                          .map((type) => Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: _buildFilterChip(
-                                  label: type,
-                                  isSelected: _selectedBloodType == type,
-                                  onTap: () {
-                                    setState(() {
-                                      if (_selectedBloodType == type) {
-                                        _selectedBloodType = null;
-                                      } else {
-                                        _selectedBloodType = type;
-                                      }
-                                    });
-                                  },
-                                ),
-                              ))
-                          .toList()
+                          .map(
+                            (type) => Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: _buildFilterChip(
+                                label: type,
+                                isSelected: _selectedBloodType == type,
+                                onTap: () {
+                                  setState(() {
+                                    if (_selectedBloodType == type) {
+                                      _selectedBloodType = null;
+                                    } else {
+                                      _selectedBloodType = type;
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ].expand((i) => i).toList(),
                   ),
                 ),
@@ -188,17 +195,15 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                final hospitals = (snapshot.data ?? [])
-                    .where((h) {
-                      final matchesSearch = h.name.toLowerCase().contains(
-                        _searchQuery.toLowerCase(),
-                      );
-                      final matchesBlood =
-                          _selectedBloodType == null ||
-                          h.availableBloodTypes.contains(_selectedBloodType);
-                      return matchesSearch && matchesBlood;
-                    })
-                    .toList();
+                final hospitals = (snapshot.data ?? []).where((h) {
+                  final matchesSearch = h.name.toLowerCase().contains(
+                    _searchQuery.toLowerCase(),
+                  );
+                  final matchesBlood =
+                      _selectedBloodType == null ||
+                      h.availableBloodTypes.contains(_selectedBloodType);
+                  return matchesSearch && matchesBlood;
+                }).toList();
 
                 if (_userPosition != null) {
                   hospitals.sort((a, b) {
@@ -229,10 +234,17 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                       children: [
                         if (_userPosition != null && hospitals.isNotEmpty)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
                             child: Row(
                               children: [
-                                Icon(Icons.near_me, size: 14, color: Theme.of(context).primaryColor),
+                                Icon(
+                                  Icons.near_me,
+                                  size: 14,
+                                  color: Theme.of(context).primaryColor,
+                                ),
                                 const SizedBox(width: 6),
                                 Text(
                                   'Showing nearest hospitals to you',
@@ -257,7 +269,9 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                                 ),
                                 child: ListTile(
                                   leading: CircleAvatar(
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).primaryColor,
                                     child: const Icon(
                                       Icons.local_hospital,
                                       color: Colors.white,
@@ -270,14 +284,17 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                                     ),
                                   ),
                                   subtitle: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(h.city),
                                       if (_userPosition != null)
                                         Text(
                                           '${_calculateDistance(h.latitude, h.longitude).toStringAsFixed(1)} km away',
                                           style: TextStyle(
-                                            color: Theme.of(context).primaryColor,
+                                            color: Theme.of(
+                                              context,
+                                            ).primaryColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 12,
                                           ),
@@ -311,7 +328,6 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
       ),
     );
   }
-
 
   void _showHospitalDetails(BuildContext context, HospitalEntity h) {
     showModalBottomSheet(
@@ -362,9 +378,8 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                       children: [
                         Text(
                           h.name,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         if (_userPosition != null)
                           Text(
@@ -406,132 +421,158 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
               const SizedBox(height: 10),
               if (h.id != null)
                 Consumer<HospitalProvider>(
-                  builder: (context, hospitalProvider, _) => StreamBuilder<List<InventoryEntity>>(
-                    stream: hospitalProvider.streamInventory(h.id!),
-                    builder: (context, snap) {
-                      if (snap.connectionState == ConnectionState.waiting) {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      }
-                      final inventory = snap.data ?? [];
-                      if (inventory.isEmpty) {
-                        return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Text(
-                            'No inventory data available for this hospital.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        );
-                      }
-                      const order = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
-                      inventory.sort((a, b) {
-                        final ai = order.indexOf(a.bloodType);
-                        final bi = order.indexOf(b.bloodType);
-                        return (ai == -1 ? 99 : ai).compareTo(bi == -1 ? 99 : bi);
-                      });
-                      final latestUpdate = inventory
-                          .map((e) => e.lastUpdated)
-                          .reduce((a, b) => a.isAfter(b) ? a : b);
-                      final updatedStr =
-                          '${latestUpdate.day}/${latestUpdate.month}/${latestUpdate.year}'
-                          '  ${latestUpdate.hour.toString().padLeft(2, '0')}:'
-                          '${latestUpdate.minute.toString().padLeft(2, '0')}';
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 8,
-                                  crossAxisSpacing: 8,
-                                  childAspectRatio: 2.6,
-                                ),
-                            itemCount: inventory.length,
-                            itemBuilder: (context, i) {
-                              final item = inventory[i];
-                              final available = item.units > 0;
-                              final isLow = item.isLowStock;
-                              final color = available
-                                  ? (isLow ? Colors.orange.shade600 : Colors.green.shade600)
-                                  : Colors.red.shade700;
-                              final bgColor = available
-                                  ? (isLow ? Colors.orange.shade50 : Colors.green.shade50)
-                                  : Colors.red.shade50;
-                              return Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: bgColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: color.withOpacity(0.4),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      item.bloodType,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: color,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    Icon(
-                                      available ? Icons.check_circle : Icons.cancel,
-                                      size: 14,
-                                      color: color,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      available ? '${item.units} u' : 'None',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                        color: color,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
+                  builder: (context, hospitalProvider, _) =>
+                      StreamBuilder<List<InventoryEntity>>(
+                        stream: hospitalProvider.streamInventory(h.id!),
+                        builder: (context, snap) {
+                          if (snap.connectionState == ConnectionState.waiting) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                          final inventory = snap.data ?? [];
+                          if (inventory.isEmpty) {
+                            return Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Text(
+                                'No inventory data available for this hospital.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            );
+                          }
+                          const order = [
+                            'A+',
+                            'A-',
+                            'B+',
+                            'B-',
+                            'AB+',
+                            'AB-',
+                            'O+',
+                            'O-',
+                          ];
+                          inventory.sort((a, b) {
+                            final ai = order.indexOf(a.bloodType);
+                            final bi = order.indexOf(b.bloodType);
+                            return (ai == -1 ? 99 : ai).compareTo(
+                              bi == -1 ? 99 : bi,
+                            );
+                          });
+                          final latestUpdate = inventory
+                              .map((e) => e.lastUpdated)
+                              .reduce((a, b) => a.isAfter(b) ? a : b);
+                          final updatedStr =
+                              '${latestUpdate.day}/${latestUpdate.month}/${latestUpdate.year}'
+                              '  ${latestUpdate.hour.toString().padLeft(2, '0')}:'
+                              '${latestUpdate.minute.toString().padLeft(2, '0')}';
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _legendDot(Colors.green.shade600, 'Available'),
-                              const SizedBox(width: 12),
-                              _legendDot(Colors.orange.shade600, 'Low (≤5)'),
-                              const SizedBox(width: 12),
-                              _legendDot(Colors.red.shade400, 'Empty'),
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
+                                      childAspectRatio: 2.6,
+                                    ),
+                                itemCount: inventory.length,
+                                itemBuilder: (context, i) {
+                                  final item = inventory[i];
+                                  final available = item.units > 0;
+                                  final isLow = item.isLowStock;
+                                  final color = available
+                                      ? (isLow
+                                            ? Colors.orange.shade600
+                                            : Colors.green.shade600)
+                                      : Colors.red.shade700;
+                                  final bgColor = available
+                                      ? (isLow
+                                            ? Colors.orange.shade50
+                                            : Colors.green.shade50)
+                                      : Colors.red.shade50;
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: bgColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: color.withOpacity(0.4),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          item.bloodType,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: color,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Icon(
+                                          available
+                                              ? Icons.check_circle
+                                              : Icons.cancel,
+                                          size: 14,
+                                          color: color,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          available
+                                              ? '${item.units} u'
+                                              : 'None',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: color,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  _legendDot(
+                                    Colors.green.shade600,
+                                    'Available',
+                                  ),
+                                  const SizedBox(width: 12),
+                                  _legendDot(
+                                    Colors.orange.shade600,
+                                    'Low (≤5)',
+                                  ),
+                                  const SizedBox(width: 12),
+                                  _legendDot(Colors.red.shade400, 'Empty'),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                'Updated: $updatedStr',
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              ),
                             ],
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            'Updated: $updatedStr',
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                          );
+                        },
+                      ),
                 )
               else
                 const Text(
@@ -840,14 +881,18 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                       _selectedCity,
                       _selectedRegion,
                       _selectedIsland,
-                      'Philippines'
+                      'Philippines',
                     ].where((e) => e != null).join(', ');
 
-                    final coords = await _locationSvc.getCoordinatesFromAddress(searchStr);
+                    final coords = await _locationSvc.getCoordinatesFromAddress(
+                      searchStr,
+                    );
                     if (coords != null) {
                       setState(() {
                         _mapCenter = LatLng(coords.latitude, coords.longitude);
-                        _mapZoom = type == 'barangay' ? 15 : (type == 'city' ? 13 : 10);
+                        _mapZoom = type == 'barangay'
+                            ? 15
+                            : (type == 'city' ? 13 : 10);
                       });
                     }
 

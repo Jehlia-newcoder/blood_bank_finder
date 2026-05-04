@@ -7,6 +7,14 @@ import '../../super_admin/screens/super_admin_dashboard.dart';
 import '../../hospital/screens/hospital_admin_dashboard.dart';
 import 'landing_screen.dart';
 
+// Methods in this file:
+// - initState()
+// - _checkAuthAndNavigate()
+// - dispose()
+// - build()
+// - Scaffold()
+// - Center()
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 

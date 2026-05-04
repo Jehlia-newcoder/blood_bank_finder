@@ -7,6 +7,11 @@ import '../../../core/providers/auth_provider.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../../../shared/widgets/hospital_picker_sheet.dart';
 
+// Methods in this file:
+// - build()
+// - InkWell()
+// - _submitDonation()
+
 class DonateBloodScreen extends StatefulWidget {
   const DonateBloodScreen({super.key});
 
