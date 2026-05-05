@@ -144,6 +144,9 @@ class _BloodRequestsListScreenState extends State<BloodRequestsListScreen> {
   }
 
   void _showDetailedRequestView(BuildContext context, BloodRequestEntity req) {
+    String selectedStatus = req.status;
+    final messageController = TextEditingController();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -281,7 +284,7 @@ class _BloodRequestsListScreenState extends State<BloodRequestsListScreen> {
                               ],
                               _sectionTitle('Process Case'),
                               const SizedBox(height: 12),
-                              _buildUpdateStatusSection(context, req),
+                              _buildUpdateStatusSection(context, req, selectedStatus, messageController, (newStatus) => selectedStatus = newStatus),
                             ],
                           ),
                         ),
@@ -715,9 +718,10 @@ class _BloodRequestsListScreenState extends State<BloodRequestsListScreen> {
   Widget _buildUpdateStatusSection(
     BuildContext context,
     BloodRequestEntity req,
+    String selectedStatus,
+    TextEditingController messageController,
+    Function(String) onStatusChanged,
   ) {
-    String selectedStatus = req.status;
-    final messageController = TextEditingController();
 
     return StatefulBuilder(
       builder: (context, setModalState) => Column(
@@ -732,7 +736,12 @@ class _BloodRequestsListScreenState extends State<BloodRequestsListScreen> {
                       DropdownMenuItem(value: s, child: Text(s.toUpperCase())),
                 )
                 .toList(),
-            onChanged: (v) => setModalState(() => selectedStatus = v!),
+            onChanged: (v) {
+              setModalState(() {
+                selectedStatus = v!;
+                onStatusChanged(v);
+              });
+            },
           ),
           const SizedBox(height: 16),
           TextField(

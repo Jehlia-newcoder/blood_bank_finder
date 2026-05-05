@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import '../../domain/entities/user.dart';
@@ -11,7 +12,7 @@ class FirebaseAuthRepository implements IAuthRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   
   // TODO: Move to a config file
-  static const String _apiBaseUrl = 'http://localhost:8000';
+  static const String _apiBaseUrl = kIsWeb ? 'http://localhost:8000' : 'http://192.168.1.11:8000';
 
   @override
   Future<UserEntity?> login(String email, String password) async {
