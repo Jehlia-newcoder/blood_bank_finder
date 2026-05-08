@@ -92,13 +92,21 @@ class MyRequestsScreen extends StatelessWidget {
                 }
 
                 // List
-                return ListView.separated(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 20),
-                  itemCount: items.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) =>
-                      _RequestCard(item: items[index]),
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    // Streams update automatically, but this provides feedback
+                    await Future.delayed(const Duration(milliseconds: 500));
+                  },
+                  child: ListView.separated(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 20),
+                    itemCount: items.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 12),
+                    itemBuilder: (context, index) =>
+                        _RequestCard(item: items[index]),
+                  ),
                 );
               },
             ),

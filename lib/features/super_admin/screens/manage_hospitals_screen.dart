@@ -285,12 +285,12 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                 _detailItem(Icons.email_outlined, 'Email', hospital.email),
               ]),
               const SizedBox(height: 24),
-              _detailSection('Inventory Snapshot', [
+              _detailSection('Inventory Configuration', [
                 _detailItem(
                   Icons.bloodtype_outlined,
-                  'Available Types',
+                  'Registered Types',
                   hospital.availableBloodTypes.isEmpty
-                      ? 'No stock information available'
+                      ? 'No types registered'
                       : hospital.availableBloodTypes.join(', '),
                 ),
               ]),
@@ -367,7 +367,7 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                 children: [
                   _infoItem(Icons.phone_outlined, hospital.contactNumber),
                   const Spacer(),
-                  _inventorySnapshot(hospital.availableBloodTypes.length),
+                  _inventorySnapshot(hospital.availableBloodTypes.length, 'Registered'),
                 ],
               ),
               const SizedBox(height: 12),
@@ -424,7 +424,7 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
     );
   }
 
-  Widget _inventorySnapshot(int typesCount) {
+  Widget _inventorySnapshot(int typesCount, [String label = 'Types']) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
@@ -436,7 +436,7 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
           const Icon(Icons.bloodtype_outlined, size: 14, color: Colors.blue),
           const SizedBox(width: 4),
           Text(
-            '$typesCount Types Available',
+            '$typesCount $label',
             style: const TextStyle(
               color: Colors.blue,
               fontSize: 11,
@@ -1077,7 +1077,7 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
 // - _buildHospitalCard(): Ang matag item sa imong listahan. Naay icon sa hospital ug status badge para dali ra makita ang info.
 // - _statusBadge(): Helper para sa color-coding (Green kung Active, Red kung Inactive).
 // - _infoItem(): Simple widget para nindot ang pagpakita sa contact number nga naay icon.
-// - _inventorySnapshot(): Nag-pakita kung pila na ka klase sa dugo ang naa sa ilang inventory karon.
+// - _inventorySnapshot(): Nag-pakita kung pila ka klase sa dugo ang gi-register sa hospital para sa ilang inventory.
 // - _detailSection(): Helper para pag-grupo sa mga impormasyon sa hospital details modal para dili magsagol-sagol.
 // - _detailItem(): Ang matag detalye nga naay icon ug label sa sulod sa hospital details modal.
 // - _confirmDelete(): Ang "Are you sure?" nga dialog inig pindot nimo sa Remove button para dili aksidente ang pag-deactivate.

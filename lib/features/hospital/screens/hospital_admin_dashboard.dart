@@ -39,6 +39,23 @@ class HospitalAdminDashboard extends StatelessWidget {
                 return StreamBuilder<List<InventoryEntity>>(
                   stream: hospitalProvider.streamInventory(hospitalId),
                   builder: (context, inventorySnap) {
+                    if (requestSnap.hasError || inventorySnap.hasError) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.error_outline,
+                                color: Colors.red, size: 48),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Error loading dashboard data',
+                              style: TextStyle(color: Colors.grey.shade800),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
                     if (requestSnap.connectionState ==
                             ConnectionState.waiting ||
                         inventorySnap.connectionState ==
@@ -327,7 +344,9 @@ class HospitalAdminDashboard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: items.map((i) {
-            final double progress = (i.units / 20).clamp(0.0, 1.0);
+            // We use 50 units as the "standard full capacity" for the progress bar.
+            // This represents a more realistic target for a mid-sized hospital.
+            final double progress = (i.units / 50).clamp(0.0, 1.0);
             final Color color = i.isLowStock ? Colors.red : Colors.green;
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
@@ -400,7 +419,7 @@ class HospitalAdminDashboard extends StatelessWidget {
 // METHODS EXPLANATION (CASUAL BISAYA):
 // - build(): Mao ni ang main dashboard sa Hospital Admin; diri nimo makita ang summary sa tanan activities sa imong hospital.
 // - _buildHeader(): Widget para sa pag-display sa mga nindot nga titles sa matag section sa dashboard.
-// - _buildStatCardPlain(): Ang gagmay nga cards para sa summary stats sama sa pila ang pending requests ug donations karong bulana.
+// - _buildStatCardPlain(): Ang gagmay nga cards para sa summary stats; ang "Pending" nag-count sa tanan pending requests ug donations.
 // - _buildActivityChart(): Mao ni ang nag-drawing sa bar chart para makita ang dagan sa requests ug donations sa miaging pito ka adlaw.
-// - _buildAlertsList(): Ipakita diri ang mga "Critical Alerts" kung naa nay blood types nga hapit na gyud mahurot sa stock.
-// - _buildInventorySummaryPlain(): Detailed list sa tibuok inventory nga naay progress bars para dali ra nimo makita kung daghan pa ba ang stock.
+// - _buildAlertsList(): Ipakita diri ang mga "Critical Alerts" kung naa nay blood types nga hapit na gyud mahurot sa stock (ubos sa 5 units).
+// - _buildInventorySummaryPlain(): Detailed list sa inventory nga naay progress bars; gi-set nato ang full capacity sa 50 units para sa scaling.

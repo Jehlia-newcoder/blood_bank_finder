@@ -42,93 +42,124 @@ class SuperAdminDashboard extends StatelessWidget {
       body: StreamBuilder<List<BloodRequestEntity>>(
         stream: bloodRequestProvider.streamAllRequests(),
         builder: (context, requestSnapshot) {
+          if (requestSnapshot.hasError) {
+            return _buildErrorState('Requests Error: ${requestSnapshot.error}');
+          }
+
           return StreamBuilder<List<UserEntity>>(
             stream: superAdminProvider.streamAllUsers(),
             builder: (context, userSnapshot) {
+              if (userSnapshot.hasError) {
+                return _buildErrorState('Users Error: ${userSnapshot.error}');
+              }
+
               return StreamBuilder<List<HospitalEntity>>(
                 stream: hospitalProvider.streamHospitals(),
                 builder: (context, hospitalSnapshot) {
+                  if (hospitalSnapshot.hasError) {
+                    return _buildErrorState(
+                        'Hospitals Error: ${hospitalSnapshot.error}');
+                  }
+
+                  if (requestSnapshot.connectionState == ConnectionState.waiting ||
+                      userSnapshot.connectionState == ConnectionState.waiting ||
+                      hospitalSnapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
                   final requests = requestSnapshot.data ?? [];
                   final users = userSnapshot.data ?? [];
                   final hospitals = hospitalSnapshot.data ?? [];
 
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildHeader(),
-                        const SizedBox(height: 24),
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      // Streams will refresh automatically, but this provides a nice UX
+                      await Future.delayed(const Duration(milliseconds: 500));
+                    },
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildHeader(),
+                          const SizedBox(height: 24),
 
-                        // --- Top Metrics Row ---
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildMetricTile(
-                                'Total Users',
-                                users.length.toString(),
-                                Icons.people,
-                                Colors.blue,
+                          // --- Top Metrics Row ---
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _buildMetricTile(
+                                  'Total Users',
+                                  users.length.toString(),
+                                  Icons.people,
+                                  Colors.blue,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: _buildMetricTile(
-                                'Active Hospitals',
-                                hospitals.length.toString(),
-                                Icons.local_hospital,
-                                Colors.green,
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: _buildMetricTile(
+                                  'Active Hospitals',
+                                  hospitals.length.toString(),
+                                  Icons.local_hospital,
+                                  Colors.green,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildMetricTile(
-                                'Pending Requests',
-                                requests
-                                    .where((r) =>
-                                        r.status == 'pending' &&
-                                        r.type == 'Request')
-                                    .length
-                                    .toString(),
-                                Icons.emergency,
-                                Colors.red,
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _buildMetricTile(
+                                  'Pending Requests',
+                                  requests
+                                      .where((r) =>
+                                          r.status == 'pending' &&
+                                          r.type == 'Request')
+                                      .length
+                                      .toString(),
+                                  Icons.emergency,
+                                  Colors.red,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: _buildMetricTile(
-                                'Total Donations',
-                                requests
-                                    .where((r) => r.type == 'Donate')
-                                    .length
-                                    .toString(),
-                                Icons.volunteer_activism,
-                                Colors.orange,
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: _buildMetricTile(
+                                  'Total Donations',
+                                  requests
+                                      .where((r) => r.type == 'Donate')
+                                      .length
+                                      .toString(),
+                                  Icons.volunteer_activism,
+                                  Colors.orange,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
 
-                        const SizedBox(height: 32),
-                        _buildSectionTitle('Global Supply vs. Demand'),
-                        const SizedBox(height: 16),
-                        _buildDemandSupplyChart(requests),
+                          const SizedBox(height: 32),
+                          _buildSectionTitle('Global Supply vs. Demand'),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Comparison of pending requests vs. served donations',
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildDemandSupplyChart(requests),
 
-                        const SizedBox(height: 32),
-                        _buildSectionTitle('Platform Health'),
-                        const SizedBox(height: 16),
-                        _buildGlobalInventorySection(hospitals),
+                          const SizedBox(height: 32),
+                          _buildSectionTitle('Platform Health'),
+                          const SizedBox(height: 16),
+                          _buildGlobalInventorySection(hospitals),
 
-                        const SizedBox(height: 32),
-                        _buildSectionTitle('User Growth (Last 7 Days)'),
-                        const SizedBox(height: 16),
-                        _buildGrowthChart(users),
-                        const SizedBox(height: 40),
-                      ],
+                          const SizedBox(height: 32),
+                          _buildSectionTitle('User Growth (Last 7 Days)'),
+                          const SizedBox(height: 16),
+                          _buildGrowthChart(users),
+                          const SizedBox(height: 40),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -343,11 +374,11 @@ class SuperAdminDashboard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Global Stock Diversity',
+                  'Global Type Registry',
                   style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
                 Text(
-                  '$totalDiversity Active Stocks',
+                  '$totalDiversity Supported Types',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -355,13 +386,33 @@ class SuperAdminDashboard extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  'Aggregated across all registered facilities',
+                  'Combined inventory capabilities across all hospitals',
                   style: TextStyle(color: Colors.white54, fontSize: 11),
                 ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(String message) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.red, size: 48),
+            const SizedBox(height: 16),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -404,4 +455,5 @@ class SuperAdminDashboard extends StatelessWidget {
 // - _buildSectionTitle(): Helper method para pare-parehas ang style sa mga titles sa matag section sa dashboard.
 // - _buildDemandSupplyChart(): Ang bar chart nga nag-kumpara kung pila ang nanginahanglan og dugo batok sa pila na ang nakahatag (Donations).
 // - _buildGrowthChart(): Line chart para makita ang pattern sa pag-daghan sa mga users sa miaging pito ka adlaw.
-// - _buildGlobalInventorySection(): Ipakita diri kung unsa ka "diverse" o kapila naay stock sa dugo sa tanan registered hospitals globally.
+// - _buildGlobalInventorySection(): Ipakita diri kung pila ka klase sa dugo ang supported sa tanan registered hospitals sa tibuok system.
+// - _buildErrorState(): Widget nga mo-gawas kung naay problema sa pag-fetch sa data gikan sa database para dili blangko ang dashboard.

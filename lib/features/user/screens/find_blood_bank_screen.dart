@@ -288,17 +288,23 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(h.city),
-                                      if (_userPosition != null)
-                                        Text(
-                                          '${_calculateDistance(h.latitude, h.longitude).toStringAsFixed(1)} km away',
-                                          style: TextStyle(
-                                            color: Theme.of(
-                                              context,
-                                            ).primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                          ),
+                                    if (_userPosition != null)
+                                      Text(
+                                        '${_calculateDistance(h.latitude, h.longitude).toStringAsFixed(1)} km away',
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
                                         ),
+                                      )
+                                    else
+                                      const Text(
+                                        'Distance unavailable',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 11,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   trailing: const Icon(
@@ -389,6 +395,11 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                             ),
+                          )
+                        else
+                          const Text(
+                            'Location services off',
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
                       ],
                     ),
@@ -555,7 +566,7 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                                   const SizedBox(width: 12),
                                   _legendDot(
                                     Colors.orange.shade600,
-                                    'Low (≤5)',
+                                    'Low (<5)',
                                   ),
                                   const SizedBox(width: 12),
                                   _legendDot(Colors.red.shade400, 'Empty'),

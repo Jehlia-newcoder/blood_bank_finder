@@ -34,6 +34,7 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
   final _reasonController = TextEditingController();
   String _selectedUrgency = 'Regular';
   bool _isSworn = false;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
       return;
     }
 
+    setState(() => _isSubmitting = true);
     try {
       final bloodRequestProvider = context.read<BloodRequestProvider>();
 
@@ -89,6 +91,7 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
       );
     } catch (e) {
       if (!mounted) return;
+      setState(() => _isSubmitting = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed: ${e.toString()}'),
@@ -284,8 +287,12 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
               ),
               const SizedBox(height: 32),
               CustomButton(
-                label: 'Post Emergency Request',
-                onPressed: _isSworn ? () => _submitRequest(auth) : null,
+                label: _isSubmitting
+                    ? 'Processing...'
+                    : 'Post $_selectedUrgency Request',
+                onPressed: _isSworn && !_isSubmitting
+                    ? () => _submitRequest(auth)
+                    : null,
               ),
             ],
           ),

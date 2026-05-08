@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood Bank Finder - Use Cases</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         :root {
@@ -32,7 +35,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image: 
+            background-image:
                 radial-gradient(circle at 10% 20%, rgba(239, 68, 68, 0.05) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 20%);
             color: var(--text-primary);
@@ -50,7 +53,7 @@
             text-align: center;
             padding: 2rem;
             background: linear-gradient(to bottom, rgba(15, 23, 42, 0) 0%, var(--bg-color) 100%),
-                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop') center/cover;
+                url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop') center/cover;
             position: relative;
         }
 
@@ -77,7 +80,6 @@
             font-weight: 700;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.02em;
         }
@@ -209,14 +211,32 @@
         }
 
         /* Actor specific themes */
-        .actor-user .actor-icon { background: rgba(16, 185, 129, 0.1); color: var(--user-color); }
-        .actor-user .actor-header { border-bottom-color: rgba(16, 185, 129, 0.2); }
-        
-        .actor-hospital .actor-icon { background: rgba(59, 130, 246, 0.1); color: var(--hospital-color); }
-        .actor-hospital .actor-header { border-bottom-color: rgba(59, 130, 246, 0.2); }
+        .actor-user .actor-icon {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--user-color);
+        }
 
-        .actor-admin .actor-icon { background: rgba(245, 158, 11, 0.1); color: var(--admin-color); }
-        .actor-admin .actor-header { border-bottom-color: rgba(245, 158, 11, 0.2); }
+        .actor-user .actor-header {
+            border-bottom-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .actor-hospital .actor-icon {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--hospital-color);
+        }
+
+        .actor-hospital .actor-header {
+            border-bottom-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .actor-admin .actor-icon {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--admin-color);
+        }
+
+        .actor-admin .actor-header {
+            border-bottom-color: rgba(245, 158, 11, 0.2);
+        }
 
         footer {
             text-align: center;
@@ -226,17 +246,24 @@
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .actors-grid { grid-template-columns: 1fr; }
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .actors-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <header>
         <div class="header-content">
             <h1>System Use Cases</h1>
-            <p class="subtitle">A comprehensive breakdown of actor roles and functional capabilities within the Blood Bank Finder ecosystem.</p>
+            <p class="subtitle">A comprehensive breakdown of actor roles and functional capabilities within the Blood
+                Bank Finder ecosystem.</p>
         </div>
     </header>
 
@@ -329,15 +356,18 @@ flowchart LR
                     <div class="use-cases-list">
                         <div class="use-case-item">
                             <div class="uc-title">Blood Request/Donation</div>
-                            <div class="uc-desc">Initiate urgent blood requests or schedule voluntary donations at specific hospitals.</div>
+                            <div class="uc-desc">Initiate urgent blood requests or schedule voluntary donations at
+                                specific hospitals.</div>
                         </div>
                         <div class="use-case-item">
                             <div class="uc-title">Nearby Search</div>
-                            <div class="uc-desc">Use geolocation to find the closest hospitals with available blood types.</div>
+                            <div class="uc-desc">Use geolocation to find the closest hospitals with available blood
+                                types.</div>
                         </div>
                         <div class="use-case-item">
                             <div class="uc-title">Communication</div>
-                            <div class="uc-desc">Chat directly with hospital admins regarding active requests and receive status alerts.</div>
+                            <div class="uc-desc">Chat directly with hospital admins regarding active requests and
+                                receive status alerts.</div>
                         </div>
                     </div>
                 </div>
@@ -354,15 +384,18 @@ flowchart LR
                     <div class="use-cases-list">
                         <div class="use-case-item">
                             <div class="uc-title">Request Processing</div>
-                            <div class="uc-desc">Review incoming donor and recipient applications; approve, reject, or mark as 'on progress'.</div>
+                            <div class="uc-desc">Review incoming donor and recipient applications; approve, reject, or
+                                mark as 'on progress'.</div>
                         </div>
                         <div class="use-case-item">
                             <div class="uc-title">Inventory Control</div>
-                            <div class="uc-desc">Update and sync blood unit stock levels for visibility to the public.</div>
+                            <div class="uc-desc">Update and sync blood unit stock levels for visibility to the public.
+                            </div>
                         </div>
                         <div class="use-case-item">
                             <div class="uc-title">Active Response</div>
-                            <div class="uc-desc">Manage real-time chats with users and send custom feedback messages.</div>
+                            <div class="uc-desc">Manage real-time chats with users and send custom feedback messages.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -379,15 +412,18 @@ flowchart LR
                     <div class="use-cases-list">
                         <div class="use-case-item">
                             <div class="uc-title">Security & Governance</div>
-                            <div class="uc-desc">Ban malicious users and monitor global transaction logs for system integrity.</div>
+                            <div class="uc-desc">Ban malicious users and monitor global transaction logs for system
+                                integrity.</div>
                         </div>
                         <div class="use-case-item">
                             <div class="uc-title">Infrastructure Management</div>
-                            <div class="uc-desc">Onboard new hospitals, manage directories, and assign admin permissions.</div>
+                            <div class="uc-desc">Onboard new hospitals, manage directories, and assign admin
+                                permissions.</div>
                         </div>
                         <div class="use-case-item">
                             <div class="uc-title">Ecosystem Oversight</div>
-                            <div class="uc-desc">View global analytics on blood availability and request fulfillment rates.</div>
+                            <div class="uc-desc">View global analytics on blood availability and request fulfillment
+                                rates.</div>
                         </div>
                     </div>
                 </div>
@@ -400,7 +436,7 @@ flowchart LR
     </footer>
 
     <script>
-        mermaid.initialize({ 
+        mermaid.initialize({
             startOnLoad: true,
             theme: 'base',
             themeVariables: {
@@ -414,4 +450,5 @@ flowchart LR
         });
     </script>
 </body>
+
 </html>

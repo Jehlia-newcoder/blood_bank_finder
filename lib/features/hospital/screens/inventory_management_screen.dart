@@ -8,30 +8,38 @@ import '../widgets/no_hospital_assigned.dart';
 import '../../super_admin/domain/entities/audit_log.dart';
 import '../../super_admin/presentation/providers/super_admin_provider.dart';
 
-// Methods in this file:
-// - dispose()
-// - _getController()
 // - _updateStock()
-// - build()
 
 class InventoryManagementScreen extends StatefulWidget {
   const InventoryManagementScreen({super.key});
 
   @override
-  State<InventoryManagementScreen> createState() => _InventoryManagementScreenState();
+  State<InventoryManagementScreen> createState() =>
+      _InventoryManagementScreenState();
 }
 
 class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
   final Map<String, TextEditingController> _controllers = {};
+  final Map<String, FocusNode> _focusNodes = {};
 
   final List<String> bloodTypes = [
-    'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-',
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'O+',
+    'O-',
+    'AB+',
+    'AB-',
   ];
 
   @override
   void dispose() {
     for (var controller in _controllers.values) {
       controller.dispose();
+    }
+    for (var node in _focusNodes.values) {
+      node.dispose();
     }
     super.dispose();
   }
@@ -40,14 +48,17 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
     if (!_controllers.containsKey(type)) {
       _controllers[type] = TextEditingController(text: initialValue.toInt().toString());
     }
+    if (!_focusNodes.containsKey(type)) {
+      _focusNodes[type] = FocusNode();
+    }
     return _controllers[type]!;
   }
 
   Future<void> _updateStock(
-    BuildContext context, 
-    String hospitalId, 
-    String type, 
-    double currentUnits
+    BuildContext context,
+    String hospitalId,
+    String type,
+    double currentUnits,
   ) async {
     final controller = _controllers[type];
     if (controller == null) return;
@@ -55,15 +66,18 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
     final newUnits = double.tryParse(controller.text);
     if (newUnits == null || newUnits < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid quantity'), backgroundColor: Colors.orange),
+        const SnackBar(
+          content: Text('Please enter a valid quantity'),
+          backgroundColor: Colors.orange,
+        ),
       );
       return;
     }
 
     if (newUnits == currentUnits) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No changes made')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('No changes made')));
       return;
     }
 
@@ -79,7 +93,10 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
         lastUpdated: DateTime.now(),
       );
 
-      final error = await hospitalProvider.updateInventory(hospitalId, newInventory);
+      final error = await hospitalProvider.updateInventory(
+        hospitalId,
+        newInventory,
+      );
       if (error != null) throw error;
 
       // Log the action
@@ -89,7 +106,8 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
           id: '',
           action: 'Update Inventory',
           category: 'inventory',
-          description: 'Updated $type stock from ${currentUnits.toInt()} to ${newUnits.toInt()} units',
+          description:
+              'Updated $type stock from ${currentUnits.toInt()} to ${newUnits.toInt()} units',
           userId: user.uid,
           userName: '${user.firstName} ${user.lastName}',
           userRole: user.role,
@@ -128,10 +146,7 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
     final hospitalProvider = context.read<HospitalProvider>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Inventory Control'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Inventory Control'), elevation: 0),
       drawer: const HospitalAdminDrawer(),
       body: hospitalId == null || hospitalId.isEmpty
           ? const NoHospitalAssigned()
@@ -145,7 +160,11 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.error_outline, color: Colors.red, size: 48),
+                          const Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                            size: 48,
+                          ),
                           const SizedBox(height: 16),
                           Text(
                             'Error loading inventory: ${snapshot.error}',
@@ -179,28 +198,36 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
                     final type = bloodTypes[index];
                     final units = inventoryMap[type] ?? 0.0;
                     final controller = _getController(type, units);
+                    final focusNode = _focusNodes[type]!;
 
-                    // If the controller value is different from the remote value 
-                    // AND the user isn't currently interacting with this specific field, update it.
-                    // (Simple check: if the field is not focused)
-                    // Note: We use a FocusNode for better precision if needed, but for now this is okay.
-                    if (double.tryParse(controller.text) != units) {
-                       // Only update if the user is not actively typing (this is tricky with just one focus scope)
-                       // For now, let's just ensure that if the remote data arrives, it can populate the fields.
-                       if (controller.text.isEmpty || (snapshot.connectionState == ConnectionState.active && units > 0 && controller.text == "0")) {
-                         controller.text = units.toInt().toString();
-                       }
+                    // Sync logic: Only update the controller if the field is NOT focused.
+                    // This prevents the "jumping" effect when the user is actively typing.
+                    if (!focusNode.hasFocus) {
+                      final currentTextValue = double.tryParse(controller.text) ?? 0.0;
+                      if (currentTextValue != units) {
+                        controller.text = units.toInt().toString();
+                      }
                     }
 
                     return Card(
-                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 6,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         child: Row(
                           children: [
                             CircleAvatar(
-                              backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                              backgroundColor: Theme.of(
+                                context,
+                              ).primaryColor.withOpacity(0.1),
                               child: Text(
                                 type,
                                 style: TextStyle(
@@ -216,7 +243,10 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
                                 children: [
                                   const Text(
                                     'Available Units',
-                                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                   Text(
                                     '${units.toInt()} Units',
@@ -232,11 +262,14 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
                               width: 80,
                               child: TextField(
                                 controller: controller,
+                                focusNode: focusNode,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -245,7 +278,12 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
                             ),
                             const SizedBox(width: 12),
                             IconButton(
-                              onPressed: () => _updateStock(context, hospitalId, type, units),
+                              onPressed: () => _updateStock(
+                                context,
+                                hospitalId,
+                                type,
+                                units,
+                              ),
                               icon: const Icon(Icons.save),
                               color: Theme.of(context).primaryColor,
                               tooltip: 'Update',
@@ -260,7 +298,7 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
             ),
     );
   }
-}}
+}
 
 // 
 // 
