@@ -293,4 +293,39 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - initState(): Inig open nimo ani nga screen, i-check na daan sa app imong blood type gikan sa imong profile para dili na ka magsige og pili.
+// - _submitRequest(): Mao ni ang method nga mo-pasa sa imong blood request sa database. Siguraduhon niya nga naa kay gipili nga hospital ug blood type sa dili pa i-save.
+// - build(): Mao ni ang nag-pakita sa tibuok form—ang dapit diin nimo i-type ang pangalan sa pasyente, ang urgency sa request, ug ang contact info.

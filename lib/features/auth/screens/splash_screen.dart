@@ -216,3 +216,39 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - initState(): Pag-start sa app, i-setup ang animation ug tawagon ang check auth para mahibal-an asa padulong.
+// - _checkAuthAndNavigate(): I-check kung kinsa ang naka-login para mahibal-an kung asa i-redirect ang user (Super Admin, Hospital Admin, o Standard User).
+// - dispose(): Limpyohon ang animation controller para dili makahurot og memory sa phone.
+// - build(): Mao ni ang nag-drawing sa splash screen nga naay logo, background, ug loading icon.

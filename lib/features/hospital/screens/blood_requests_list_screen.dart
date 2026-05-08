@@ -878,4 +878,47 @@ class _BloodRequestsListScreenState extends State<BloodRequestsListScreen> {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang main screen para sa Hospital Admin diin makita nimo ang tanan requests ug donations nga gipadala sa imong hospital.
+// - _buildFilterRow(): Ang mga choices sa taas para nimo ma-filter ang mga requests base sa ilang status sama sa Pending o Completed.
+// - _showDetailedRequestView(): Kung i-click nimo ang usa ka request, mogawas kani nga sheet diin makita nimo ang tanan detalye sa pasyente ug inventory info.
+// - _buildRequestCard(): Kini ang nag-create sa matag item sa imong listahan; naay type indicator kung donation ba o request.
+// - _buildInventoryInsight(): Usa ka special feature nga mo-ingon nimo kung naa ba moy saktong stock sa dugo para ma-fulfill ang maong request.
+// - _buildProfileCard(): Nag-display sa verified info sa user nga nag-request para sigurado nga tinuod nga tawo ang nag-request.
+// - _openChat(): Tawagon ni para maka-open og direct message sa user kung naa kay gustong ipangutana o i-confirm.
+// - _buildUpdateStatusSection(): Diri nimo i-set kung Approved, Rejected, o Completed na ba ang request. Pwede pod ka mobilin og message para sa user.
+// - _swipeBg(): Ang background color nga mo-gawas kung imong i-swipe ang card para sa dali nga pag-update sa status.
+// - _getStatusColor(): Helper para sa pag-assign og colors sa status (pananglitan, Green kung Completed na).
+// - _formatDate(): Helper para nindot ang pag-display sa petsa ug oras sa matag transaction.

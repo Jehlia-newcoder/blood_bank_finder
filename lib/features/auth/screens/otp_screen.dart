@@ -163,4 +163,41 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - dispose(): Inig biya nimo ani nga screen, kani ang molimpyo sa mga controllers ug focus nodes para dili mo-hang ang imong phone.
+// - _verify(): Mao ni ang method nga mo-check sa 6-digit code nga imong gi-type. Kung sakto, padayon na ka sa sunod nga step.
+// - _resend(): Kung wala nimo nadawat ang code sa email, kani nga method ang mo-send og balik og bag-ong code.
+// - build(): Mao ni ang interface diin nimo makita ang mga boxes para sa OTP ug ang "Verify" button.
+// - _buildOtpBox(): Ang matag gamay nga box para sa numero. Nindot ni kay mo-focus ra siya sa sunod nga box inig type nimo og numero.

@@ -907,4 +907,43 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - initState(): Pag-open pa lang nimo ani nga screen, i-setup na dayon ang pagkuha sa imong location para makita nimo ang pinakaduol nga hospital.
+// - _initLocation(): Gamiton ang GPS sa imong phone para mahibal-an kung asa ka dapit karon; basehan ni para sa "km away" feature.
+// - _calculateDistance(): Kini ang nag-kwenta sa gilay-on (kilometers) gikan sa imong nahimutangan padulong sa hospital.
+// - build(): Mao ni ang tibuok interface—ang search bar sa taas, ang mga filters sa dugo ug location, ug ang listahan o mapa sa mga hospitals.
+// - _showHospitalDetails(): Kung naay hospital nga mapili, mo-slide up kini nga details sheet para makita nimo ilang address, inventory, ug inventory status.
+// - _showLocationPicker(): Usa ka dialog box nga mo-gawas para makapili ka og Island, Region, o City kung gusto nimo mangita og hospital sa layo nga dapit.
+// - _buildFilterChip(): Gamit ni para sa mga nindot nga buttons sa filters (sama sa A+, B+, ug uban pa) para sayon ra i-tap.

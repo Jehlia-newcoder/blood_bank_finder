@@ -1000,3 +1000,86 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
     );
   }
 }
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang nag-pakita sa listahan sa mga hospitals nga na-register na sa sistema.
+// - _buildSearchAndFilter(): Gamiton ni para mangita og specific nga hospital base sa iyang ngalan, status (Active/Inactive), o address.
+// - _displayHospitalModal(): Mo-gawas ni nga details sheet kung naay hospital nga gi-tap para makita ang full details.
+// - _buildHospitalCard(): Ang widget para sa matag hospital sa listahan nga naay dali nga access sa edit ug deactivate buttons.
+// - _confirmDelete(): Dialog para i-confirm kung i-deactivate ba gyud ang usa ka hospital; imbes i-delete, i-set ra siya og inactive.
+// - _showHospitalDialog(): Mao ni ang form kung mag-register og bag-o o mag-update og hospital info; handle pod ni sa location dropdowns.
+// - _locationSvc.getCoordinatesFromAddress(): Gamiton ni para i-convert ang text address ngadto sa coordinates (lat/long) para mogawas sa map.}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang main screen para sa pag-manage sa tanan hospitals. Diri nimo makita ang listahan ug pwede ka maka-search o filter.
+// - _buildSearchAndFilter(): Ang dapit sa taas diin ka mag-type og pangalan sa hospital o mo-pili kung Active ba o Inactive ang i-display.
+// - _displayHospitalModal(): Kung gusto nimo makita ang tibuok detalye sa hospital (address, contacts, location), kani nga sheet ang mogawas.
+// - _buildHospitalCard(): Ang matag item sa imong listahan. Naay icon sa hospital ug status badge para dali ra makita ang info.
+// - _statusBadge(): Helper para sa color-coding (Green kung Active, Red kung Inactive).
+// - _infoItem(): Simple widget para nindot ang pagpakita sa contact number nga naay icon.
+// - _inventorySnapshot(): Nag-pakita kung pila na ka klase sa dugo ang naa sa ilang inventory karon.
+// - _detailSection(): Helper para pag-grupo sa mga impormasyon sa hospital details modal para dili magsagol-sagol.
+// - _detailItem(): Ang matag detalye nga naay icon ug label sa sulod sa hospital details modal.
+// - _confirmDelete(): Ang "Are you sure?" nga dialog inig pindot nimo sa Remove button para dili aksidente ang pag-deactivate.
+// - _showHospitalDialog(): Mao ni ang tibuok form para sa pag-add o edit og hospital. Naay dropdowns para sa Region, City, ug Barangay.
+// - _saveHospital(): (Logic sulod sa dialog) Kini ang method nga mo-save sa tanan gi-type nga info sa database ug mag-log sa Audit Trail.

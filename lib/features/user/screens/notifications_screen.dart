@@ -469,4 +469,43 @@ class NotificationsScreen extends StatelessWidget {
     if (date == null) return '';
     return '${date.day}/${date.month} ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang tibuok interface para sa imong Notifications. Diri nimo makita ang mga update gikan sa hospital bahin sa imong gipang-request o gi-donate.
+// - _showNotificationDetails(): Kung naay notification nga imong gi-click, mogawas kani nga sheet para makita nimo ang tibuok message ug detalye sa imong case.
+// - _detailRow(): Helper widget ni para nindot ang pagka-layout sa mga impormasyon sama sa pangalan sa pasyente ug blood type sa sulod sa details sheet.
+// - _getColorForType(): Mao ni ang mag-boot kung unsa nga color ang gamiton (Green kung Approved, Red kung Rejected) para dali ra nimo mailhan.
+// - _formatRelativeTime(): Helper para nindot basahon ang oras; mo-ingon ni og "JUST NOW" o "5M AGO" depende kung kanus-a na-abot ang notification.
+// - _getIconForType(): Mag-assign og saktong icon para sa matag klase sa notification para dili ka malibog kung unsa to nga update.
+// - _formatDate(): Helper method para sa pagpakita sa saktong petsa ug oras sa notification sa simple nga paagi.

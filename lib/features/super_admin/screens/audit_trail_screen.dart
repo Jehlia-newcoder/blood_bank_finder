@@ -150,4 +150,40 @@ class AuditTrailScreen extends StatelessWidget {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang screen para makita ang tanan security logs. Diri nimo ma-monitor kinsa ang nag-login ug unsa ang mga dagko nga kausaban sa app.
+// - _buildAuditItem(): Usa ka expansion tile para sa matag log entry. Kung i-click, makita nimo ang mas detailed nga impormasyon sama sa metadata.
+// - _buildDetailRow(): Helper method para nindot ang pagka-align sa mga labels ug values sulod sa log details.
+// - _buildEmptyState(): Mao ni ang widget nga mo-gawas kung limpyo pa ang logs o wala pay nahitabo nga activity sa system.

@@ -225,4 +225,40 @@ class _LandingScreenState extends State<LandingScreen>
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - initState(): Inig abli nimo sa app, kani ang nag-setup sa animation para nindot ang pag-fade in sa mga text.
+// - dispose(): Inig biya nimo ani nga screen, i-stop niya ang animation para tipid sa battery ug memory.
+// - build(): Mao ni ang "Welcome Screen" sa app. Diri nimo makita ang nindot nga background image ug ang main button para makasulod.
+// - GestureDetector.onTap(): Mao ni ang "utok" sa button. I-check niya kung kinsa ka (Super Admin, Hospital Admin, o User) para ipadala ka sa saktong dashboard.

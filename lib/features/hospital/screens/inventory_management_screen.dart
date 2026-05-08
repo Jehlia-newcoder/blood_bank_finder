@@ -260,4 +260,40 @@ class _InventoryManagementScreenState extends State<InventoryManagementScreen> {
             ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - dispose(): Inig biya nimo ani nga screen, kani ang molimpyo sa tanan controllers para dili mo-hang ang app.
+// - _getController(): Helper method para i-manage ang matag input box sa dugo; sigurohon niya nga naa kay saktong controller para sa matag blood type.
+// - _updateStock(): Mao ni ang method nga motawag sa database para i-save ang bag-ong stock. Mag-himo pod ni og Audit Log para kabalo ang Super Admin kinsa ang nag-usab.
+// - build(): Mao ni ang tibuok screen diin makita nimo ang listahan sa imong inventory; naay text box ug "Save" icon para sa matag blood type.

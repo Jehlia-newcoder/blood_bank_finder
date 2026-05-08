@@ -366,3 +366,41 @@ class HospitalAdminDashboard extends StatelessWidget {
     );
   }
 }
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang main dashboard sa Hospital Admin; diri nimo makita ang summary sa tanan activities sa imong hospital.
+// - _buildHeader(): Widget para sa pag-display sa mga nindot nga titles sa matag section sa dashboard.
+// - _buildStatCardPlain(): Ang gagmay nga cards para sa summary stats sama sa pila ang pending requests ug donations karong bulana.
+// - _buildActivityChart(): Mao ni ang nag-drawing sa bar chart para makita ang dagan sa requests ug donations sa miaging pito ka adlaw.
+// - _buildAlertsList(): Ipakita diri ang mga "Critical Alerts" kung naa nay blood types nga hapit na gyud mahurot sa stock.
+// - _buildInventorySummaryPlain(): Detailed list sa tibuok inventory nga naay progress bars para dali ra nimo makita kung daghan pa ba ang stock.

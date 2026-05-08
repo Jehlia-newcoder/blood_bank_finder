@@ -173,3 +173,38 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - _login(): Mao ni ang method nga tawagon kung mopindot ka og Login button. I-check niya ang imong email ug password, unya mag-send og OTP code para sa security (awas lang sa superadmin bypass).
+// - _completeLogin(): Human nimo ma-type ang saktong OTP, kani nga method ang motiwas sa pag-login para makasulod na ka sa main screen sa app.
+// - build(): Mao ni ang nag-drawing sa imong login screen—ang mga text boxes para sa email ug password, ug ang dako nga Login button.

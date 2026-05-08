@@ -124,4 +124,38 @@ class ChatListScreen extends StatelessWidget {
       return '${date.day}/${date.month}/${date.year}';
     }
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang main screen para sa imong mga messages. Diri makita ang listahan sa tanan nimong na-istorya (chat rooms) ug ang ilang pinaka-ulahing message.
+// - _formatDate(): Helper method para nindot ang pag-display sa oras. Kung karon nga adlaw ang message, oras ang ipakita; kung dugay na, ang petsa o pila ka adlaw ang milabay.

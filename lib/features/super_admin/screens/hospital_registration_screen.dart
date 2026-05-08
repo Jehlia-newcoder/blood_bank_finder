@@ -80,4 +80,39 @@ class _HospitalRegistrationScreenState
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang screen para sa pag-register og bag-ong hospital. Diri nimo i-type ang pangalan, address, ug uban pang detalye.
+// - PhLocationPicker(): Ang widget nga gamiton para sa pagpili og lokasyon sa tibuok Pilipinas (Island, Region, City, ug Barangay).
+// - CustomButton(): Ang button nga imong pisliton inig human nimo og fill-up sa tanang impormasyon para ma-save na ang hospital.

@@ -469,4 +469,40 @@ class UserHomeScreen extends StatelessWidget {
     );
   }
 }
+}
 
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang main dashboard sa regular user. Diri nimo makita imong profile summary, ang "Donate Blood" banner, ug ang listahan sa imong mga activities.
+// - _buildQuickAction(): Kini nga method ang nag-create sa tulo ka dako nga buttons sa tunga para dali ra kaayo maka-access sa pagpangita og blood bank o pag-request og dugo.
+// - _buildRequestPreview(): Ang gamay nga card para sa "Recent Activity" section para makita nimo dayon kung Approved ba o Pending pa imong gihimo nga request o donation.

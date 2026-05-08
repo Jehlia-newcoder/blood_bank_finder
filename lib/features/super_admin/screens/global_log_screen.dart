@@ -281,4 +281,42 @@ class GlobalLogScreen extends StatelessWidget {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang main screen para sa Super Admin diin makita nimo ang tibuok lihok sa system—mapa-request man o donation sa tanang hospitals.
+// - _buildAuditHeader(): Ang header sa screen nga nag-ingon kung pila na kabuok transactions ang nahitabo sa tibuok platform.
+// - _buildTimelineItem(): Mao ni ang itsura sa matag activity sa imong timeline. Makita nimo kinsa ang user, unsa ang blood type, ug unsa nga hospital ang involved.
+// - _statusTag(): Helper para sa color-coding sa status (pananglitan: Green kung humana na ang transaction, Orange kung pending pa).
+// - _formatRelativeTime(): Helper method para nindot basahon ang oras sa activity (sama sa "JUST NOW" o "3H AGO").
+// - _buildEmptyState(): Mao ni ang mogawas kung wala pa gyu'y activity nga nahitabo sa system para dili ra blanko ang screen.

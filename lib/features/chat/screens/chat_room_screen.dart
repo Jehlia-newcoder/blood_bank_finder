@@ -193,4 +193,40 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - _sendMessage(): Mao ni ang method nga mo-pasa sa imong message ngadto sa database. I-clear pod niya ang imong gi-type human og pindot sa "Send".
+// - build(): Mao ni ang tibuok interface sa inyong chat room. I-display niya ang inyong mga messages ug sigurohon nga naka-mark as "read" na sila.
+// - _buildMessageBubble(): Ang itsura sa matag message. Kung ikaw ang nag-send, naa sa tuo ug color red/primary; kung ang pikas, naa sa wala ug color gray.
+// - _buildMessageInput(): Ang dapit sa ubos diin ka mag-type og message. Naay text box ug "Send" button para dali ra ang pag-chat.

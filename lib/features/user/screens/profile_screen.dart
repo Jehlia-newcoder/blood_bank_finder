@@ -438,4 +438,43 @@ class _BloodTypeBadge extends StatelessWidget {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - initState(): Inig open nimo ani, kuhaon niya imong info gikan sa database ug i-butang sa mga text boxes para andam na i-display.
+// - dispose(): Inig biya nimo, kani ang molimpyo sa mga controllers para dili mo-hang imong phone.
+// - _saveProfile(): Mao ni ang method nga mo-update sa imong profile. Inig pindot nimo sa "Save", i-pasa niya ang bag-ong info sa database.
+// - build(): Mao ni ang tibuok itsura sa imong profile page—apil na ang imong picture, blood type banner, ug ang Edit button.
+// - _buildProfileItem(): Helper ni para nindot ang pagka-display sa matag linya sa impormasyon sama sa imong Address ug Contact Number.
+// - _buildBloodGroupCard(): Kani ang nag-himo sa dako ug hayag nga red banner diin makita ang imong Blood Type.
+// - _BloodTypeBadge: Ang gamay nga "pill" design sa ubos sa imong picture para ma-highlight gyud imong blood type.

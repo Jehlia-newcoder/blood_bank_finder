@@ -455,3 +455,41 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
     );
   }
 }
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang main screen display para sa pag-manage sa mga users; diri makita ang listahan sa tanan.
+// - _buildSearchAndFilter(): Ang widget para sa pag-search ug pag-filter sa mga users gamit ang ilang pangalan, email, o role.
+// - _buildUserCard(): Nag-drawing sa individual nga card para sa matag user para nindot tan-awon ang ilang profile info.
+// - _roleBadge(): Gamay nga icon o text para dali ra mailhan kung Admin, User, o Banned ba ang status sa user.
+// - _banToggle(): Ang switch button para dali ra nimo ma-block (ban) o ma-unblock ang user gikan sa app.
+// - _showEditRoleDialog(): Ang pop-up nga dialog box kung gusto nimo usbon ang role sa user o i-assign siya sa specific nga hospital.

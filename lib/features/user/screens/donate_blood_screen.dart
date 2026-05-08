@@ -366,3 +366,37 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
   }
 }
 
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang tibuok interface para sa pag-donate. Gigamitan ni og "Stepper" para dili ka malibog—sugod sa Eligibility Quiz hangtod sa pag-pili og schedule.
+// - _submitDonation(): Mao ni ang method nga mo-save sa imong donation intent sa database. Siguraduhon niya nga pasar ka sa eligibility ug kompleto imong appointment details.

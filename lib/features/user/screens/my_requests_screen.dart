@@ -356,4 +356,40 @@ class _RequestCard extends StatelessWidget {
     );
   }
 }
+}
 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang tibuok interface para sa "My History". Diri nimo makita ang tanan nimong gipang-buhat sa app—requests man o donations.
+// - _statusColor(): Helper method para sa pagpili og color. Green kung Approved na, Red kung Rejected, ug Yellow/Orange kung Pending pa.
+// - _statusChip(): Ang nindot nga badge para sa status sa imong request para dali ra nimo makita ang status maski paspas ka nag-scroll.
+// - _buildInstructionSection(): Kung Approved na imong request, mogawas ni para pahinumdom nimo nga kinahanglan na ka moadto sa hospital sa imong pinili nga schedule.

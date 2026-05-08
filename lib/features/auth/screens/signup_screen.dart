@@ -261,3 +261,40 @@ class _SignupScreenState extends State<SignupScreen> {
 //ang _formData kay ang data sa user og ang _formkey kay ang key sa form.
 //ang _signup kay ang function sa pag-signup.
 //ang _buildDropdown kay ang function sa pag-build ng dropdown.
+
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - _signup(): Mao ni ang magsugod sa pag-register. I-check niya kung kompleto ba imong info, i-save sa memory, ug mag-send og verification code sa imong email para siguro gyud.
+// - _completeSignup(): Human nimo ma-verify imong email gamit ang OTP, kani nga method ang mo-create gyud sa imong account sa database ug mo-redirect nimo sa Landing Screen.
+// - build(): Mao ni ang nag-drawing sa tibuok registration form—apil na ang Personal Info, Location Details, ug imong Account Credentials.
+// - _buildDropdown(): Usa ka reusable widget para sa mga dropdown choices para dili na sige og balik-balik og code para sa Gender ug Blood Group.

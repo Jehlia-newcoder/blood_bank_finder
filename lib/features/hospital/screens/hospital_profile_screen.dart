@@ -404,4 +404,41 @@ class _HospitalProfileScreenState extends State<HospitalProfileScreen> {
       context,
     ).showSnackBar(const SnackBar(content: Text('Hospital profile updated!')));
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - initState(): Inig abli nimo ani nga screen, tawagon dayon ang _loadHospital para ma-display ang info sa hospital.
+// - _loadHospital(): Mao ni ang method nga mokuha sa tibuok detalye sa hospital gikan sa database. I-load pod niya ang mga dropdowns para sa Region, City, ug Barangay base sa nahimutangan sa hospital.
+// - dispose(): Inig biya nimo sa screen, kani ang molimpyo sa tanan controllers para dili mo-hang ang app.
+// - build(): Mao ni ang tibuok interface diin ang Hospital Admin maka-usab sa ilang pangalan, email, address, ug contact number. Naa pod ni switch para i-set kung "Active" ba ang hospital.
+// - _saveProfile(): Inig pindot nimo sa "Update Hospital Profile", kani nga method ang mo-save sa tanan nimong gi-usab ngadto sa database.

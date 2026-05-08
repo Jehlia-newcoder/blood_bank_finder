@@ -365,4 +365,43 @@ class SuperAdminDashboard extends StatelessWidget {
       ),
     );
   }
-}
+}}
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// METHODS EXPLANATION (CASUAL BISAYA):
+// - build(): Mao ni ang "Command Center" o main dashboard para sa Super Admin; diri makita ang kinatibuk-ang dagan sa tibuok app.
+// - _buildHeader(): Nag-display sa title nga Command Center ug ang petsa karon para updated ang admin.
+// - _buildMetricTile(): Ang mga tiles sa taas nga nagpakita sa summary sa Users, Active Hospitals, ug ang status sa Requests/Donations.
+// - _buildSectionTitle(): Helper method para pare-parehas ang style sa mga titles sa matag section sa dashboard.
+// - _buildDemandSupplyChart(): Ang bar chart nga nag-kumpara kung pila ang nanginahanglan og dugo batok sa pila na ang nakahatag (Donations).
+// - _buildGrowthChart(): Line chart para makita ang pattern sa pag-daghan sa mga users sa miaging pito ka adlaw.
+// - _buildGlobalInventorySection(): Ipakita diri kung unsa ka "diverse" o kapila naay stock sa dugo sa tanan registered hospitals globally.
