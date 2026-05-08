@@ -56,8 +56,40 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
               return;
             }
           }
+          if (_currentStep == 1) {
+            if (_selectedBloodType == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please select your blood type.')),
+              );
+              return;
+            }
+          }
+          if (_currentStep == 2) {
+            if (_selectedHospital == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please select a hospital.')),
+              );
+              return;
+            }
+          }
           if (_currentStep == 3) {
             if (!_formKey.currentState!.validate()) return;
+          }
+          if (_currentStep == 4) {
+            if (_selectedDate == null || _selectedTime == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please pick a date and time.')),
+              );
+              return;
+            }
+          }
+          if (_currentStep == 5) {
+            if (!_isSworn) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please check the declaration.')),
+              );
+              return;
+            }
           }
 
           if (_currentStep < 5) {

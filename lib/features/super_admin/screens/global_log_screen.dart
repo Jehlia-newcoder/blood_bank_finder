@@ -21,7 +21,7 @@ class GlobalLogScreen extends StatelessWidget {
     final bloodRequestProvider = context.read<BloodRequestProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('System Audit Trail')),
+      appBar: AppBar(title: const Text('Global Activity Logs')),
       drawer: const SuperAdminDrawer(),
       body: StreamBuilder<List<BloodRequestEntity>>(
         stream: bloodRequestProvider.streamAllRequests(),

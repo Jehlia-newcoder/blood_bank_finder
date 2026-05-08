@@ -387,6 +387,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                           snapshot.data!.any((h) => h.id == selectedHospitalId)
                           ? selectedHospitalId
                           : null,
+                      isExpanded: true,
                       decoration: const InputDecoration(
                         labelText: 'Assign Hospital',
                       ),
@@ -394,7 +395,10 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                           .map(
                             (h) => DropdownMenuItem(
                               value: h.id,
-                              child: Text(h.name),
+                              child: Text(
+                                h.name,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           )
                           .toList(),

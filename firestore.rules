@@ -48,7 +48,7 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
-    // Audit Logs Collection
+    // Audit Logs Collection (Security Trail)
     match /audit_logs/{logId} {
       allow read, write: if true;
     }
