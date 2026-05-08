@@ -7,14 +7,6 @@ import '../../user/screens/user_home_screen.dart';
 import '../../super_admin/screens/super_admin_dashboard.dart';
 import '../../hospital/screens/hospital_admin_dashboard.dart';
 
-// Methods in this file:
-// - initState()
-// - dispose()
-// - build()
-// - Scaffold()
-// - GestureDetector()
-// - Center()
-
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
 
@@ -22,7 +14,8 @@ class LandingScreen extends StatefulWidget {
   State<LandingScreen> createState() => _LandingScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> with SingleTickerProviderStateMixin {
+class _LandingScreenState extends State<LandingScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _textFadeAnimation;
 
@@ -102,11 +95,7 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
                   const SizedBox(height: 40),
                   const Hero(
                     tag: 'app_logo',
-                    child: Icon(
-                      Icons.bloodtype,
-                      color: Colors.white,
-                      size: 48,
-                    ),
+                    child: Icon(Icons.bloodtype, color: Colors.white, size: 48),
                   ),
                   const SizedBox(height: 12),
                   Text(
@@ -139,7 +128,7 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
                         Text(
                           auth.isAuthenticated
                               ? 'Thank you for being part of our life-saving community. Your contributions make a real difference.'
-                              : 'Connect with blood donors and hospitals near you. Every drop counts in an emergency.',
+                              : 'Connect with blood bank hospitals near you. Every drop counts in an emergency.',
                           style: GoogleFonts.outfit(
                             color: Colors.white.withOpacity(0.7),
                             fontSize: 18,
@@ -170,7 +159,9 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
                             } else {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                                MaterialPageRoute(
+                                  builder: (_) => const LoginScreen(),
+                                ),
                               );
                             }
                           },
@@ -195,7 +186,9 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
                             ),
                             child: Center(
                               child: Text(
-                                auth.isAuthenticated ? 'Enter Dashboard' : 'Get Started',
+                                auth.isAuthenticated
+                                    ? 'Enter Dashboard'
+                                    : 'Get Started',
                                 style: GoogleFonts.outfit(
                                   color: theme.primaryColor,
                                   fontSize: 18,

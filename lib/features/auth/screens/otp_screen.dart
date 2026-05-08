@@ -3,29 +3,25 @@ import 'package:provider/provider.dart';
 import '../../../core/providers/auth_provider.dart';
 import '../../../shared/widgets/custom_button.dart';
 
-// Methods in this file:
-// - dispose()
 // - _verify()
 // - _resend()
-// - build()
 // - _buildOtpBox()
 
 class OtpScreen extends StatefulWidget {
   final String email;
   final Function() onVerified;
 
-  const OtpScreen({
-    super.key,
-    required this.email,
-    required this.onVerified,
-  });
+  const OtpScreen({super.key, required this.email, required this.onVerified});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-  final List<TextEditingController> _controllers = List.generate(6, (index) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(
+    6,
+    (index) => TextEditingController(),
+  );
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
   bool _isLoading = false;
 
@@ -48,7 +44,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
     setState(() => _isLoading = true);
     FocusScope.of(context).unfocus(); // Hide keyboard
-    
+
     final auth = context.read<AuthProvider>();
     final error = await auth.verifyOtp(widget.email, otp);
 
@@ -72,9 +68,12 @@ class _OtpScreenState extends State<OtpScreen> {
     await auth.sendOtp(widget.email);
     if (!mounted) return;
     setState(() => _isLoading = false);
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('OTP Resent!'), backgroundColor: Colors.green),
+      const SnackBar(
+        content: Text('OTP Resent!'),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 
@@ -87,7 +86,11 @@ class _OtpScreenState extends State<OtpScreen> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Icon(Icons.mark_email_read_outlined, size: 80, color: Theme.of(context).primaryColor),
+            Icon(
+              Icons.mark_email_read_outlined,
+              size: 80,
+              color: Theme.of(context).primaryColor,
+            ),
             const SizedBox(height: 24),
             const Text(
               'Enter Verification Code',
@@ -143,8 +146,10 @@ class _OtpScreenState extends State<OtpScreen> {
             borderRadius: BorderRadius.circular(8),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: Theme.of(context).primaryColor, width: 2),
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(8),
           ),
         ),

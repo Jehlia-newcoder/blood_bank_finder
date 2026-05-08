@@ -8,16 +8,8 @@ import '../domain/entities/audit_log.dart';
 import '../presentation/providers/super_admin_provider.dart';
 import '../widgets/super_admin_drawer.dart';
 
-// Methods in this file:
-// - build()
-// - _buildSearchAndFilter()
-// - SingleChildScrollView()
-// - _buildUserCard()
-// - _roleBadge()
 // - _banToggle()
 // - _showEditRoleDialog()
-// - setModalState()
-// - ElevatedButton()
 
 class ManageUsersScreen extends StatefulWidget {
   const ManageUsersScreen({super.key});
@@ -55,10 +47,12 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                   if (u.role == 'superadmin') return false;
 
                   final fullName = '${u.firstName} ${u.lastName}'.toLowerCase();
-                  final matchesSearch = fullName.contains(_searchQuery) ||
+                  final matchesSearch =
+                      fullName.contains(_searchQuery) ||
                       u.email.toLowerCase().contains(_searchQuery);
 
-                  final matchesRole = _roleFilter == 'All' ||
+                  final matchesRole =
+                      _roleFilter == 'All' ||
                       (_roleFilter == 'Admin' && u.role == 'admin') ||
                       (_roleFilter == 'User' && u.role == 'user') ||
                       (_roleFilter == 'Banned' && u.isBanned);
@@ -129,13 +123,16 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                     onSelected: (val) {
                       if (val) setState(() => _roleFilter = filter);
                     },
-                    selectedColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                    selectedColor: Theme.of(
+                      context,
+                    ).primaryColor.withOpacity(0.2),
                     labelStyle: TextStyle(
                       color: isSelected
                           ? Theme.of(context).primaryColor
                           : Colors.grey[700],
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       fontSize: 12,
                     ),
                   ),
@@ -298,29 +295,33 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
               onChanged: (active) async {
                 final admin = context.read<AuthProvider>().user;
                 final superAdminProvider = context.read<SuperAdminProvider>();
-                
+
                 await superAdminProvider.updateUserStatus(user.uid, !active);
-                
+
                 if (admin != null) {
-                  await superAdminProvider.logAction(AuditLogEntity(
-                    id: '',
-                    action: active ? 'USER_UNBANNED' : 'USER_BANNED',
-                    category: 'Admin',
-                    description: '${admin.firstName} ${active ? 'unbanned' : 'banned'} ${user.firstName} ${user.lastName}.',
-                    userId: admin.uid,
-                    userName: '${admin.firstName} ${admin.lastName}',
-                    userRole: admin.role,
-                    timestamp: DateTime.now(),
-                    metadata: {'targetUserId': user.uid, 'targetEmail': user.email},
-                  ));
+                  await superAdminProvider.logAction(
+                    AuditLogEntity(
+                      id: '',
+                      action: active ? 'USER_UNBANNED' : 'USER_BANNED',
+                      category: 'Admin',
+                      description:
+                          '${admin.firstName} ${active ? 'unbanned' : 'banned'} ${user.firstName} ${user.lastName}.',
+                      userId: admin.uid,
+                      userName: '${admin.firstName} ${admin.lastName}',
+                      userRole: admin.role,
+                      timestamp: DateTime.now(),
+                      metadata: {
+                        'targetUserId': user.uid,
+                        'targetEmail': user.email,
+                      },
+                    ),
+                  );
                 }
 
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                      active ? 'User Unbanned' : 'User Banned',
-                    ),
+                    content: Text(active ? 'User Unbanned' : 'User Banned'),
                     backgroundColor: active ? Colors.green : Colors.red,
                   ),
                 );
@@ -382,7 +383,8 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                       return const LinearProgressIndicator();
                     }
                     return DropdownButtonFormField<String>(
-                      value: snapshot.data!.any((h) => h.id == selectedHospitalId)
+                      value:
+                          snapshot.data!.any((h) => h.id == selectedHospitalId)
                           ? selectedHospitalId
                           : null,
                       decoration: const InputDecoration(
@@ -419,21 +421,24 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                 );
 
                 if (admin != null) {
-                  await superAdminProvider.logAction(AuditLogEntity(
-                    id: '',
-                    action: 'USER_ROLE_UPDATED',
-                    category: 'Admin',
-                    description: '${admin.firstName} changed ${user.firstName}\'s role to $selectedRole.',
-                    userId: admin.uid,
-                    userName: '${admin.firstName} ${admin.lastName}',
-                    userRole: admin.role,
-                    timestamp: DateTime.now(),
-                    metadata: {
-                      'targetUserId': user.uid,
-                      'newRole': selectedRole,
-                      'hospitalId': selectedHospitalId,
-                    },
-                  ));
+                  await superAdminProvider.logAction(
+                    AuditLogEntity(
+                      id: '',
+                      action: 'USER_ROLE_UPDATED',
+                      category: 'Admin',
+                      description:
+                          '${admin.firstName} changed ${user.firstName}\'s role to $selectedRole.',
+                      userId: admin.uid,
+                      userName: '${admin.firstName} ${admin.lastName}',
+                      userRole: admin.role,
+                      timestamp: DateTime.now(),
+                      metadata: {
+                        'targetUserId': user.uid,
+                        'newRole': selectedRole,
+                        'hospitalId': selectedHospitalId,
+                      },
+                    ),
+                  );
                 }
 
                 if (!mounted) return;
@@ -450,4 +455,3 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
     );
   }
 }
-

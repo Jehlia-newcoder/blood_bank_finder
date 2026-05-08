@@ -10,13 +10,8 @@ import '../domain/entities/inventory.dart';
 import '../presentation/providers/hospital_provider.dart';
 import '../widgets/no_hospital_assigned.dart';
 
-// Methods in this file:
-// - build()
-// - _buildHeader()
-// - _buildStatCardPlain()
-// - _buildActivityChart()
-// - _buildAlertsList()
-// - _buildInventorySummaryPlain()
+//hospitalId = auth.user?.hospitalId;
+// streambuilder()
 
 class HospitalAdminDashboard extends StatelessWidget {
   const HospitalAdminDashboard({super.key});
@@ -44,27 +39,34 @@ class HospitalAdminDashboard extends StatelessWidget {
                 return StreamBuilder<List<InventoryEntity>>(
                   stream: hospitalProvider.streamInventory(hospitalId),
                   builder: (context, inventorySnap) {
-                    if (requestSnap.connectionState == ConnectionState.waiting ||
-                        inventorySnap.connectionState == ConnectionState.waiting) {
+                    if (requestSnap.connectionState ==
+                            ConnectionState.waiting ||
+                        inventorySnap.connectionState ==
+                            ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
                     final requests = requestSnap.data ?? [];
                     final inventory = inventorySnap.data ?? [];
 
-                    final pendingCount =
-                        requests.where((r) => r.status == 'pending').length;
-                    
-                    final now = DateTime.now();
-                    final donationsThisMonth = requests.where((r) => 
-                      r.isRequest == false && 
-                      r.status == 'completed' &&
-                      r.createdAt.month == now.month &&
-                      r.createdAt.year == now.year
-                    ).length;
+                    final pendingCount = requests
+                        .where((r) => r.status == 'pending')
+                        .length;
 
-                    final lowStockTypes =
-                        inventory.where((i) => i.isLowStock).toList();
+                    final now = DateTime.now();
+                    final donationsThisMonth = requests
+                        .where(
+                          (r) =>
+                              r.isRequest == false &&
+                              r.status == 'completed' &&
+                              r.createdAt.month == now.month &&
+                              r.createdAt.year == now.year,
+                        )
+                        .length;
+
+                    final lowStockTypes = inventory
+                        .where((i) => i.isLowStock)
+                        .toList();
 
                     return SingleChildScrollView(
                       padding: const EdgeInsets.all(20),
@@ -73,7 +75,7 @@ class HospitalAdminDashboard extends StatelessWidget {
                         children: [
                           _buildHeader('Hospital Overview'),
                           const SizedBox(height: 16),
-                          
+
                           Row(
                             children: [
                               Expanded(
@@ -181,19 +183,25 @@ class HospitalAdminDashboard extends StatelessWidget {
     final Map<DateTime, int> donationCounts = {};
 
     for (var date in last7Days) {
-      requestCounts[date] = requests.where((r) => 
-        r.isRequest && 
-        r.createdAt.year == date.year && 
-        r.createdAt.month == date.month && 
-        r.createdAt.day == date.day
-      ).length;
-      
-      donationCounts[date] = requests.where((r) => 
-        !r.isRequest && 
-        r.createdAt.year == date.year && 
-        r.createdAt.month == date.month && 
-        r.createdAt.day == date.day
-      ).length;
+      requestCounts[date] = requests
+          .where(
+            (r) =>
+                r.isRequest &&
+                r.createdAt.year == date.year &&
+                r.createdAt.month == date.month &&
+                r.createdAt.day == date.day,
+          )
+          .length;
+
+      donationCounts[date] = requests
+          .where(
+            (r) =>
+                !r.isRequest &&
+                r.createdAt.year == date.year &&
+                r.createdAt.month == date.month &&
+                r.createdAt.day == date.day,
+          )
+          .length;
     }
     int maxCount = 0;
     for (var count in requestCounts.values) {
@@ -240,9 +248,15 @@ class HospitalAdminDashboard extends StatelessWidget {
                 },
               ),
             ),
-            leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            leftTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
           ),
           gridData: const FlGridData(show: false),
           borderData: FlBorderData(show: false),
@@ -272,30 +286,34 @@ class HospitalAdminDashboard extends StatelessWidget {
 
   Widget _buildAlertsList(List<InventoryEntity> alerts) {
     return Column(
-      children: alerts.map((a) => Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: Colors.orange.shade50,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.orange.shade200),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.warning_amber_rounded, color: Colors.orange),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                '${a.bloodType} is critically low: ${a.units.toInt()} units',
-                style: TextStyle(
-                  color: Colors.orange.shade900,
-                  fontWeight: FontWeight.w600,
-                ),
+      children: alerts
+          .map(
+            (a) => Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.orange.shade200),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.warning_amber_rounded, color: Colors.orange),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      '${a.bloodType} is critically low: ${a.units.toInt()} units',
+                      style: TextStyle(
+                        color: Colors.orange.shade900,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      )).toList(),
+          )
+          .toList(),
     );
   }
 
@@ -323,7 +341,10 @@ class HospitalAdminDashboard extends StatelessWidget {
                         'Type ${i.bloodType}',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text('${i.units.toInt()} Units', style: TextStyle(color: color, fontSize: 12)),
+                      Text(
+                        '${i.units.toInt()} Units',
+                        style: TextStyle(color: color, fontSize: 12),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -345,4 +366,3 @@ class HospitalAdminDashboard extends StatelessWidget {
     );
   }
 }
-

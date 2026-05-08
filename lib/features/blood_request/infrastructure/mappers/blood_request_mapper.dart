@@ -27,7 +27,7 @@ class BloodRequestMapper {
     );
   }
 
-  static Map<String, dynamic> toFirestore(BloodRequestEntity entity) {
+  static Map<String, dynamic> toJson(BloodRequestEntity entity) {
     return {
       'userId': entity.userId,
       'userName': entity.userName,
@@ -38,7 +38,8 @@ class BloodRequestMapper {
       'hospitalName': entity.hospitalName,
       'contactNumber': entity.contactNumber,
       'quantity': entity.quantity,
-      'createdAt': Timestamp.fromDate(entity.createdAt),
+      // Omit createdAt to let backend handle it, or send as ISO string
+      'createdAt': entity.createdAt.toIso8601String(),
       if (entity.adminMessage != null) 'adminMessage': entity.adminMessage,
       if (entity.preferredDate != null) 'preferredDate': entity.preferredDate,
       if (entity.preferredTime != null) 'preferredTime': entity.preferredTime,
