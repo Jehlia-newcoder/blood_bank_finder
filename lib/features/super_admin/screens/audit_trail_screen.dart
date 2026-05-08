@@ -150,7 +150,7 @@ class AuditTrailScreen extends StatelessWidget {
       ),
     );
   }
-}}
+}
 
 // 
 // 

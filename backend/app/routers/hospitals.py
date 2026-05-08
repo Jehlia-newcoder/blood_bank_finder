@@ -79,30 +79,4 @@ async def list_hospitals(
 
 
 
-"""
-FILE: hospitals.py (FastAPI Router)
 
-DESCRIPTION:
-This router defines the 'Department of Hospitals' for the API. It exposes 
-endpoints that the Flutter app calls to perform CRUD operations on hospital data.
-
-DATA FLOW OVERVIEW:
-1. RECEIVES DATA FROM: 
-   - The Flutter 'ApiService' (HTTP POST/PUT/DELETE/GET).
-2. PROCESSING:
-   - Dependency Injection: Uses 'get_db' to ensure a live connection to Firestore.
-   - Serialization: Automatically converts the incoming JSON into 'HospitalCreate' 
-     Python objects for validation.
-3. SENDS DATA TO:
-   - 'FirestoreService': The internal layer that does the actual work of 
-     talking to the Firestore database.
-4. OUTPUTS/RESPONSES:
-   - 'HospitalResponse': A sanitized JSON object returned to the Flutter app.
-   - 200 OK / 404 (handled by service) / 500 etc.
-
-ENDPOINTS:
-- POST /hospitals/: Registers a new hospital.
-- PUT /hospitals/{id}: Updates existing hospital details.
-- DELETE /hospitals/{id}: Removes a hospital record.
-- GET /hospitals/: Returns a filtered list of hospitals (by Island, Region, etc.).
-"""

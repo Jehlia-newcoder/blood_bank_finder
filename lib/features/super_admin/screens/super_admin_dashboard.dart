@@ -10,14 +10,7 @@ import '../presentation/providers/super_admin_provider.dart';
 import '../../hospital/presentation/providers/hospital_provider.dart';
 import '../../blood_request/presentation/providers/blood_request_provider.dart';
 
-// Methods in this file:
-// - build()
-// - _buildHeader()
-// - _buildMetricTile()
-// - _buildSectionTitle()
-// - _buildDemandSupplyChart()
-// - _buildGrowthChart()
-// - _buildGlobalInventorySection()
+// StreamBuilder
 
 class SuperAdminDashboard extends StatelessWidget {
   const SuperAdminDashboard({super.key});
@@ -42,124 +35,95 @@ class SuperAdminDashboard extends StatelessWidget {
       body: StreamBuilder<List<BloodRequestEntity>>(
         stream: bloodRequestProvider.streamAllRequests(),
         builder: (context, requestSnapshot) {
-          if (requestSnapshot.hasError) {
-            return _buildErrorState('Requests Error: ${requestSnapshot.error}');
-          }
-
           return StreamBuilder<List<UserEntity>>(
             stream: superAdminProvider.streamAllUsers(),
             builder: (context, userSnapshot) {
-              if (userSnapshot.hasError) {
-                return _buildErrorState('Users Error: ${userSnapshot.error}');
-              }
-
               return StreamBuilder<List<HospitalEntity>>(
                 stream: hospitalProvider.streamHospitals(),
                 builder: (context, hospitalSnapshot) {
-                  if (hospitalSnapshot.hasError) {
-                    return _buildErrorState(
-                        'Hospitals Error: ${hospitalSnapshot.error}');
-                  }
-
-                  if (requestSnapshot.connectionState == ConnectionState.waiting ||
-                      userSnapshot.connectionState == ConnectionState.waiting ||
-                      hospitalSnapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
                   final requests = requestSnapshot.data ?? [];
                   final users = userSnapshot.data ?? [];
                   final hospitals = hospitalSnapshot.data ?? [];
 
-                  return RefreshIndicator(
-                    onRefresh: () async {
-                      // Streams will refresh automatically, but this provides a nice UX
-                      await Future.delayed(const Duration(milliseconds: 500));
-                    },
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeader(),
-                          const SizedBox(height: 24),
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeader(),
+                        const SizedBox(height: 24),
 
-                          // --- Top Metrics Row ---
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _buildMetricTile(
-                                  'Total Users',
-                                  users.length.toString(),
-                                  Icons.people,
-                                  Colors.blue,
-                                ),
+                        // --- Top Metrics Row ---
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildMetricTile(
+                                'Total Users',
+                                users.length.toString(),
+                                Icons.people,
+                                Colors.blue,
                               ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildMetricTile(
-                                  'Active Hospitals',
-                                  hospitals.length.toString(),
-                                  Icons.local_hospital,
-                                  Colors.green,
-                                ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: _buildMetricTile(
+                                'Active Hospitals',
+                                hospitals.length.toString(),
+                                Icons.local_hospital,
+                                Colors.green,
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _buildMetricTile(
-                                  'Pending Requests',
-                                  requests
-                                      .where((r) =>
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildMetricTile(
+                                'Pending Requests',
+                                requests
+                                    .where(
+                                      (r) =>
                                           r.status == 'pending' &&
-                                          r.type == 'Request')
-                                      .length
-                                      .toString(),
-                                  Icons.emergency,
-                                  Colors.red,
-                                ),
+                                          r.type == 'Request',
+                                    )
+                                    .length
+                                    .toString(),
+                                Icons.emergency,
+                                Colors.red,
                               ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildMetricTile(
-                                  'Total Donations',
-                                  requests
-                                      .where((r) => r.type == 'Donate')
-                                      .length
-                                      .toString(),
-                                  Icons.volunteer_activism,
-                                  Colors.orange,
-                                ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: _buildMetricTile(
+                                'Total Donations',
+                                requests
+                                    .where((r) => r.type == 'Donate')
+                                    .length
+                                    .toString(),
+                                Icons.volunteer_activism,
+                                Colors.orange,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
 
-                          const SizedBox(height: 32),
-                          _buildSectionTitle('Global Supply vs. Demand'),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'Comparison of pending requests vs. served donations',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ),
-                          const SizedBox(height: 16),
-                          _buildDemandSupplyChart(requests),
+                        const SizedBox(height: 32),
+                        _buildSectionTitle('Global Supply vs. Demand'),
+                        const SizedBox(height: 16),
+                        _buildDemandSupplyChart(requests),
 
-                          const SizedBox(height: 32),
-                          _buildSectionTitle('Platform Health'),
-                          const SizedBox(height: 16),
-                          _buildGlobalInventorySection(hospitals),
+                        const SizedBox(height: 32),
+                        _buildSectionTitle('Platform Health'),
+                        const SizedBox(height: 16),
+                        _buildGlobalInventorySection(hospitals),
 
-                          const SizedBox(height: 32),
-                          _buildSectionTitle('User Growth (Last 7 Days)'),
-                          const SizedBox(height: 16),
-                          _buildGrowthChart(users),
-                          const SizedBox(height: 40),
-                        ],
-                      ),
+                        const SizedBox(height: 32),
+                        _buildSectionTitle('User Growth (Last 7 Days)'),
+                        const SizedBox(height: 16),
+                        _buildGrowthChart(users),
+                        const SizedBox(height: 40),
+                      ],
                     ),
                   );
                 },
@@ -188,7 +152,11 @@ class SuperAdminDashboard extends StatelessWidget {
   }
 
   Widget _buildMetricTile(
-      String title, String value, IconData icon, Color color) {
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -218,10 +186,7 @@ class SuperAdminDashboard extends StatelessWidget {
             value,
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          Text(
-            title,
-            style: TextStyle(color: Colors.grey[600], fontSize: 13),
-          ),
+          Text(title, style: TextStyle(color: Colors.grey[600], fontSize: 13)),
         ],
       ),
     );
@@ -235,10 +200,12 @@ class SuperAdminDashboard extends StatelessWidget {
   }
 
   Widget _buildDemandSupplyChart(List<BloodRequestEntity> requests) {
-    final pendingRequests =
-        requests.where((r) => r.status == 'pending' && r.type == 'Request').length;
-    final completedDonations =
-        requests.where((r) => r.status == 'completed' && r.type == 'Donate').length;
+    final pendingRequests = requests
+        .where((r) => r.status == 'pending' && r.type == 'Request')
+        .length;
+    final completedDonations = requests
+        .where((r) => r.status == 'completed' && r.type == 'Donate')
+        .length;
 
     return Container(
       height: 200,
@@ -251,7 +218,11 @@ class SuperAdminDashboard extends StatelessWidget {
       child: BarChart(
         BarChartData(
           alignment: BarChartAlignment.spaceAround,
-          maxY: (pendingRequests > completedDonations ? pendingRequests : completedDonations) + 5.0,
+          maxY:
+              (pendingRequests > completedDonations
+                  ? pendingRequests
+                  : completedDonations) +
+              5.0,
           barTouchData: BarTouchData(enabled: false),
           titlesData: FlTitlesData(
             show: true,
@@ -261,18 +232,30 @@ class SuperAdminDashboard extends StatelessWidget {
                 getTitlesWidget: (value, meta) {
                   switch (value.toInt()) {
                     case 0:
-                      return const Text('Pending Req', style: TextStyle(fontSize: 10));
+                      return const Text(
+                        'Pending Req',
+                        style: TextStyle(fontSize: 10),
+                      );
                     case 1:
-                      return const Text('Served Don', style: TextStyle(fontSize: 10));
+                      return const Text(
+                        'Served Don',
+                        style: TextStyle(fontSize: 10),
+                      );
                     default:
                       return const Text('');
                   }
                 },
               ),
             ),
-            leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            leftTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
           ),
           gridData: const FlGridData(show: false),
           borderData: FlBorderData(show: false),
@@ -374,11 +357,11 @@ class SuperAdminDashboard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Global Type Registry',
+                  'Global Stock Diversity',
                   style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
                 Text(
-                  '$totalDiversity Supported Types',
+                  '$totalDiversity Active Stocks',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -386,7 +369,7 @@ class SuperAdminDashboard extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  'Combined inventory capabilities across all hospitals',
+                  'Aggregated across all registered facilities',
                   style: TextStyle(color: Colors.white54, fontSize: 11),
                 ),
               ],
@@ -396,27 +379,7 @@ class SuperAdminDashboard extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildErrorState(String message) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error_outline, color: Colors.red, size: 48),
-            const SizedBox(height: 16),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}}
+}
 
 // 
 // 
@@ -455,5 +418,4 @@ class SuperAdminDashboard extends StatelessWidget {
 // - _buildSectionTitle(): Helper method para pare-parehas ang style sa mga titles sa matag section sa dashboard.
 // - _buildDemandSupplyChart(): Ang bar chart nga nag-kumpara kung pila ang nanginahanglan og dugo batok sa pila na ang nakahatag (Donations).
 // - _buildGrowthChart(): Line chart para makita ang pattern sa pag-daghan sa mga users sa miaging pito ka adlaw.
-// - _buildGlobalInventorySection(): Ipakita diri kung pila ka klase sa dugo ang supported sa tanan registered hospitals sa tibuok system.
-// - _buildErrorState(): Widget nga mo-gawas kung naay problema sa pag-fetch sa data gikan sa database para dili blangko ang dashboard.
+// - _buildGlobalInventorySection(): Ipakita diri kung unsa ka "diverse" o kapila naay stock sa dugo sa tanan registered hospitals globally.

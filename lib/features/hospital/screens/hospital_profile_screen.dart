@@ -404,7 +404,7 @@ class _HospitalProfileScreenState extends State<HospitalProfileScreen> {
       context,
     ).showSnackBar(const SnackBar(content: Text('Hospital profile updated!')));
   }
-}}
+}
 
 // 
 // 

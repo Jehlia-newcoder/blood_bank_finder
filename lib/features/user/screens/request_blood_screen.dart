@@ -8,11 +8,8 @@ import '../../../shared/widgets/custom_text_field.dart';
 import '../../../shared/widgets/custom_button.dart';
 import '../../../shared/widgets/hospital_picker_sheet.dart';
 
-// Methods in this file:
 // - initState()
 // - _submitRequest()
-// - build()
-// - InkWell()
 
 class RequestBloodScreen extends StatefulWidget {
   const RequestBloodScreen({super.key});
@@ -29,12 +26,11 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
   final _unitsController = TextEditingController(text: '1.0');
   final _contactController = TextEditingController();
   final _patientNameController = TextEditingController();
-  final _patientHospitalController = TextEditingController(); 
+  final _patientHospitalController = TextEditingController();
   final _wardController = TextEditingController();
   final _reasonController = TextEditingController();
   String _selectedUrgency = 'Regular';
   bool _isSworn = false;
-  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -56,7 +52,6 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
       return;
     }
 
-    setState(() => _isSubmitting = true);
     try {
       final bloodRequestProvider = context.read<BloodRequestProvider>();
 
@@ -91,7 +86,6 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
       );
     } catch (e) {
       if (!mounted) return;
-      setState(() => _isSubmitting = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed: ${e.toString()}'),
@@ -195,7 +189,11 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
               const SizedBox(height: 24),
               Row(
                 children: [
-                  Icon(Icons.person_pin_outlined, size: 20, color: theme.primaryColor),
+                  Icon(
+                    Icons.person_pin_outlined,
+                    size: 20,
+                    color: theme.primaryColor,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     'PATIENT DETAILS',
@@ -214,23 +212,28 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
                 label: 'Patient Full Name',
                 controller: _patientNameController,
                 prefixIcon: Icons.person_outline,
-                validator: (v) => v == null || v.isEmpty ? 'Patient name required' : null,
+                validator: (v) =>
+                    v == null || v.isEmpty ? 'Patient name required' : null,
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: _selectedUrgency,
                 items: ['Regular', 'Scheduled', 'Emergency']
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(
-                            e.toUpperCase(),
-                            style: TextStyle(
-                              color: e == 'Emergency' ? Colors.red[700] : Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                            ),
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e.toUpperCase(),
+                          style: TextStyle(
+                            color: e == 'Emergency'
+                                ? Colors.red[700]
+                                : Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
                           ),
-                        ))
+                        ),
+                      ),
+                    )
                     .toList(),
                 onChanged: (v) => setState(() => _selectedUrgency = v!),
                 decoration: const InputDecoration(
@@ -264,7 +267,8 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
                 controller: _reasonController,
                 prefixIcon: Icons.medical_services_outlined,
                 maxLines: 2,
-                validator: (v) => v == null || v.isEmpty ? 'Diagnosis required' : null,
+                validator: (v) =>
+                    v == null || v.isEmpty ? 'Diagnosis required' : null,
               ),
               const SizedBox(height: 16),
               CustomTextField(
@@ -287,12 +291,8 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
               ),
               const SizedBox(height: 32),
               CustomButton(
-                label: _isSubmitting
-                    ? 'Processing...'
-                    : 'Post $_selectedUrgency Request',
-                onPressed: _isSworn && !_isSubmitting
-                    ? () => _submitRequest(auth)
-                    : null,
+                label: 'Post Emergency Request',
+                onPressed: _isSworn ? () => _submitRequest(auth) : null,
               ),
             ],
           ),
@@ -300,7 +300,7 @@ class _RequestBloodScreenState extends State<RequestBloodScreen> {
       ),
     );
   }
-}}
+}
 
 // 
 // 

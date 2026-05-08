@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 import '../../hospital/domain/entities/hospital.dart';
 import 'package:geolocator/geolocator.dart';
 
+//open street map
 class HospitalMapView extends StatefulWidget {
   final List<HospitalEntity> hospitals;
   final Function(HospitalEntity) onHospitalTap;
@@ -75,7 +76,7 @@ class _HospitalMapViewState extends State<HospitalMapView> {
 
   List<Marker> _buildMarkers() {
     return widget.hospitals.map((h) {
-      return Marker(
+      return Marker( 
         point: LatLng(h.latitude, h.longitude),
         width: 80,
         height: 80,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blood_bank_finder/core/providers/auth_provider.dart';
-import 'package:blood_bank_finder/features/auth/screens/login_screen.dart';
 import 'package:blood_bank_finder/features/auth/screens/landing_screen.dart';
 import 'package:blood_bank_finder/features/hospital/screens/hospital_admin_dashboard.dart';
 import 'package:blood_bank_finder/features/hospital/screens/inventory_management_screen.dart';

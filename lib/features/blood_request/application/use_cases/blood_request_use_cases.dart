@@ -23,7 +23,6 @@ class SubmitBloodRequestUseCase {
   SubmitBloodRequestUseCase(this.repository);
 
   Future<void> execute(BloodRequestEntity request) async {
-    // Add business rules here (e.g., check for existing pending requests)
     await repository.createRequest(request);
   }
 }

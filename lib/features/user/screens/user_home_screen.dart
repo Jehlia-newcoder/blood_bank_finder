@@ -12,7 +12,6 @@ import 'request_blood_screen.dart';
 import 'notifications_screen.dart';
 import '../../chat/screens/chat_list_screen.dart';
 
-// Methods in this file:
 // - build()
 // - Stack()
 // - _buildQuickAction()

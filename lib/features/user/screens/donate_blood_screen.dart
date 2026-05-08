@@ -7,9 +7,6 @@ import '../../../core/providers/auth_provider.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../../../shared/widgets/hospital_picker_sheet.dart';
 
-// Methods in this file:
-// - build()
-// - InkWell()
 // - _submitDonation()
 
 class DonateBloodScreen extends StatefulWidget {
@@ -108,18 +105,25 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
                 const Divider(),
                 ListTile(
                   title: const Text('Last Donation Date (Optional)'),
-                  subtitle: Text(_lastDonationDate == null
-                      ? 'Select if you have donated before'
-                      : '${_lastDonationDate!.day}/${_lastDonationDate!.month}/${_lastDonationDate!.year}'),
+                  subtitle: Text(
+                    _lastDonationDate == null
+                        ? 'Select if you have donated before'
+                        : '${_lastDonationDate!.day}/${_lastDonationDate!.month}/${_lastDonationDate!.year}',
+                  ),
                   trailing: TextButton(
                     onPressed: () async {
                       final picked = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now().subtract(const Duration(days: 90)),
-                        firstDate: DateTime.now().subtract(const Duration(days: 365 * 2)),
+                        initialDate: DateTime.now().subtract(
+                          const Duration(days: 90),
+                        ),
+                        firstDate: DateTime.now().subtract(
+                          const Duration(days: 365 * 2),
+                        ),
                         lastDate: DateTime.now(),
                       );
-                      if (picked != null) setState(() => _lastDonationDate = picked);
+                      if (picked != null)
+                        setState(() => _lastDonationDate = picked);
                     },
                     child: const Text('Pick Date'),
                   ),
@@ -263,11 +267,14 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
                     onPressed: () async {
                       final picked = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now().add(const Duration(days: 1)),
+                        initialDate: DateTime.now().add(
+                          const Duration(days: 1),
+                        ),
                         firstDate: DateTime.now(),
                         lastDate: DateTime.now().add(const Duration(days: 30)),
                       );
-                      if (picked != null) setState(() => _selectedDate = picked);
+                      if (picked != null)
+                        setState(() => _selectedDate = picked);
                     },
                     child: const Text('Pick Date'),
                   ),
@@ -286,7 +293,8 @@ class _DonateBloodScreenState extends State<DonateBloodScreen> {
                         context: context,
                         initialTime: const TimeOfDay(hour: 9, minute: 0),
                       );
-                      if (picked != null) setState(() => _selectedTime = picked);
+                      if (picked != null)
+                        setState(() => _selectedTime = picked);
                     },
                     child: const Text('Pick Time'),
                   ),

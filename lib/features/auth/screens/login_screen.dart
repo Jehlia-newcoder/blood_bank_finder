@@ -10,11 +10,10 @@ import 'signup_screen.dart';
 import 'landing_screen.dart';
 import 'otp_screen.dart';
 
-// Methods in this file:
+
 // - _login()
 // - _completeLogin()
-// - build()
-// - TextButton()
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

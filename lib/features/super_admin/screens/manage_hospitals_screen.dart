@@ -9,22 +9,8 @@ import '../domain/entities/audit_log.dart';
 import '../presentation/providers/super_admin_provider.dart';
 import '../widgets/super_admin_drawer.dart';
 
-// Methods in this file:
-// - build()
-// - _buildSearchAndFilter()
-// - Row()
-// - _displayHospitalModal()
-// - _buildHospitalCard()
-// - _statusBadge()
-// - _infoItem()
-// - _inventorySnapshot()
-// - _detailSection()
-// - _detailItem()
 // - _confirmDelete()
-// - TextButton()
 // - _showHospitalDialog()
-// - setModalState()
-// - CustomTextField()
 
 class ManageHospitalsScreen extends StatefulWidget {
   const ManageHospitalsScreen({super.key});
@@ -285,12 +271,12 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                 _detailItem(Icons.email_outlined, 'Email', hospital.email),
               ]),
               const SizedBox(height: 24),
-              _detailSection('Inventory Configuration', [
+              _detailSection('Inventory Snapshot', [
                 _detailItem(
                   Icons.bloodtype_outlined,
-                  'Registered Types',
+                  'Available Types',
                   hospital.availableBloodTypes.isEmpty
-                      ? 'No types registered'
+                      ? 'No stock information available'
                       : hospital.availableBloodTypes.join(', '),
                 ),
               ]),
@@ -367,7 +353,7 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                 children: [
                   _infoItem(Icons.phone_outlined, hospital.contactNumber),
                   const Spacer(),
-                  _inventorySnapshot(hospital.availableBloodTypes.length, 'Registered'),
+                  _inventorySnapshot(hospital.availableBloodTypes.length),
                 ],
               ),
               const SizedBox(height: 12),
@@ -424,7 +410,7 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
     );
   }
 
-  Widget _inventorySnapshot(int typesCount, [String label = 'Types']) {
+  Widget _inventorySnapshot(int typesCount) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
@@ -436,7 +422,7 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
           const Icon(Icons.bloodtype_outlined, size: 14, color: Colors.blue),
           const SizedBox(width: 4),
           Text(
-            '$typesCount $label',
+            '$typesCount Types Available',
             style: const TextStyle(
               color: Colors.blue,
               fontSize: 11,
@@ -512,39 +498,46 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
               final superAdminProvider = context.read<SuperAdminProvider>();
               final navigator = Navigator.of(context);
               final scaffoldMessenger = ScaffoldMessenger.of(context);
-              
-              final hospitals = await superAdminProvider.streamAllHospitals().first;
+
+              final hospitals = await superAdminProvider
+                  .streamAllHospitals()
+                  .first;
               final hospital = hospitals.firstWhere((h) => h.id == id);
-              
-              await superAdminProvider.updateHospital(HospitalEntity(
-                id: hospital.id,
-                name: hospital.name,
-                email: hospital.email,
-                islandGroup: hospital.islandGroup,
-                region: hospital.region,
-                city: hospital.city,
-                barangay: hospital.barangay,
-                address: hospital.address,
-                contactNumber: hospital.contactNumber,
-                latitude: hospital.latitude,
-                longitude: hospital.longitude,
-                availableBloodTypes: hospital.availableBloodTypes,
-                isActive: false,
-                createdAt: hospital.createdAt,
-              ));
+
+              await superAdminProvider.updateHospital(
+                HospitalEntity(
+                  id: hospital.id,
+                  name: hospital.name,
+                  email: hospital.email,
+                  islandGroup: hospital.islandGroup,
+                  region: hospital.region,
+                  city: hospital.city,
+                  barangay: hospital.barangay,
+                  address: hospital.address,
+                  contactNumber: hospital.contactNumber,
+                  latitude: hospital.latitude,
+                  longitude: hospital.longitude,
+                  availableBloodTypes: hospital.availableBloodTypes,
+                  isActive: false,
+                  createdAt: hospital.createdAt,
+                ),
+              );
 
               if (admin != null) {
-                await superAdminProvider.logAction(AuditLogEntity(
-                  id: '',
-                  action: 'HOSPITAL_DEACTIVATED',
-                  category: 'Admin',
-                  description: '${admin.firstName} deactivated hospital "$name".',
-                  userId: admin.uid,
-                  userName: '${admin.firstName} ${admin.lastName}',
-                  userRole: admin.role,
-                  timestamp: DateTime.now(),
-                  metadata: {'hospitalId': id, 'hospitalName': name},
-                ));
+                await superAdminProvider.logAction(
+                  AuditLogEntity(
+                    id: '',
+                    action: 'HOSPITAL_DEACTIVATED',
+                    category: 'Admin',
+                    description:
+                        '${admin.firstName} deactivated hospital "$name".',
+                    userId: admin.uid,
+                    userName: '${admin.firstName} ${admin.lastName}',
+                    userRole: admin.role,
+                    timestamp: DateTime.now(),
+                    metadata: {'hospitalId': id, 'hospitalName': name},
+                  ),
+                );
               }
 
               if (mounted) {
@@ -554,7 +547,10 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                 );
               }
             },
-            child: const Text('Deactivate', style: TextStyle(color: Colors.red)),
+            child: const Text(
+              'Deactivate',
+              style: TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -724,8 +720,14 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                                 const LinearProgressIndicator()
                               else
                                 DropdownButtonFormField<String>(
-                                  value: regions.any((r) => r['name'] == selectedRegionName)
-                                      ? regions.firstWhere((r) => r['name'] == selectedRegionName)['code']
+                                  value:
+                                      regions.any(
+                                        (r) => r['name'] == selectedRegionName,
+                                      )
+                                      ? regions.firstWhere(
+                                          (r) =>
+                                              r['name'] == selectedRegionName,
+                                        )['code']
                                       : null,
                                   decoration: const InputDecoration(
                                     labelText: 'Region',
@@ -772,8 +774,13 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                                 const LinearProgressIndicator()
                               else
                                 DropdownButtonFormField<String>(
-                                  value: cities.any((c) => c['name'] == selectedCity)
-                                      ? cities.firstWhere((c) => c['name'] == selectedCity)['code']
+                                  value:
+                                      cities.any(
+                                        (c) => c['name'] == selectedCity,
+                                      )
+                                      ? cities.firstWhere(
+                                          (c) => c['name'] == selectedCity,
+                                        )['code']
                                       : null,
                                   decoration: const InputDecoration(
                                     labelText: 'City',
@@ -818,8 +825,13 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                                 const LinearProgressIndicator()
                               else
                                 DropdownButtonFormField<String>(
-                                  value: barangays.any((b) => b['name'] == selectedBarangay)
-                                      ? barangays.firstWhere((b) => b['name'] == selectedBarangay)['name']
+                                  value:
+                                      barangays.any(
+                                        (b) => b['name'] == selectedBarangay,
+                                      )
+                                      ? barangays.firstWhere(
+                                          (b) => b['name'] == selectedBarangay,
+                                        )['name']
                                       : null,
                                   decoration: const InputDecoration(
                                     labelText: 'Barangay',
@@ -862,9 +874,10 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                               child: CustomTextField(
                                 label: 'Latitude',
                                 controller: latController,
-                                keyboardType: const TextInputType.numberWithOptions(
-                                  decimal: true,
-                                ),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
                               ),
                             ),
                             const SizedBox(width: 16),
@@ -872,21 +885,22 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                               child: CustomTextField(
                                 label: 'Longitude',
                                 controller: lonController,
-                                keyboardType: const TextInputType.numberWithOptions(
-                                  decimal: true,
-                                ),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
                               ),
                             ),
                             const SizedBox(width: 8),
                             IconButton(
                               icon: isGeocoding
                                   ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  )
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
                                   : const Icon(Icons.my_location),
                               onPressed: () async {
                                 if (addressController.text.isEmpty) {
@@ -898,13 +912,16 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                                   return;
                                 }
                                 setModalState(() => isGeocoding = true);
-                                final pos = await _locationSvc.getCoordinatesFromAddress(
-                                  '${addressController.text}, ${selectedCity ?? ''}, Philippines',
-                                );
+                                final pos = await _locationSvc
+                                    .getCoordinatesFromAddress(
+                                      '${addressController.text}, ${selectedCity ?? ''}, Philippines',
+                                    );
                                 setModalState(() {
                                   if (pos != null) {
-                                    latController.text = pos.latitude.toString();
-                                    lonController.text = pos.longitude.toString();
+                                    latController.text = pos.latitude
+                                        .toString();
+                                    lonController.text = pos.longitude
+                                        .toString();
                                   }
                                   isGeocoding = false;
                                 });
@@ -930,7 +947,8 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 final admin = context.read<AuthProvider>().user;
-                                final superAdminProvider = context.read<SuperAdminProvider>();
+                                final superAdminProvider = context
+                                    .read<SuperAdminProvider>();
 
                                 final newHospital = HospitalEntity(
                                   id: hospital?.id ?? '',
@@ -942,34 +960,50 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                                   barangay: selectedBarangay ?? '',
                                   address: addressController.text,
                                   contactNumber: contactController.text,
-                                  latitude: double.tryParse(latController.text) ?? 0.0,
-                                  longitude: double.tryParse(lonController.text) ?? 0.0,
-                                  availableBloodTypes: hospital?.availableBloodTypes ?? [],
+                                  latitude:
+                                      double.tryParse(latController.text) ??
+                                      0.0,
+                                  longitude:
+                                      double.tryParse(lonController.text) ??
+                                      0.0,
+                                  availableBloodTypes:
+                                      hospital?.availableBloodTypes ?? [],
                                   isActive: isActive,
-                                  createdAt: hospital?.createdAt ?? DateTime.now(),
+                                  createdAt:
+                                      hospital?.createdAt ?? DateTime.now(),
                                 );
 
                                 if (isEditing) {
-                                  await superAdminProvider.updateHospital(newHospital);
+                                  await superAdminProvider.updateHospital(
+                                    newHospital,
+                                  );
                                 } else {
-                                  await superAdminProvider.createHospital(newHospital);
+                                  await superAdminProvider.createHospital(
+                                    newHospital,
+                                  );
                                 }
 
                                 if (admin != null) {
-                                  await superAdminProvider.logAction(AuditLogEntity(
-                                    id: '',
-                                    action: isEditing ? 'HOSPITAL_UPDATED' : 'HOSPITAL_REGISTERED',
-                                    category: 'Admin',
-                                    description: '${admin.firstName} ${isEditing ? 'updated' : 'registered'} hospital "${newHospital.name}".',
-                                    userId: admin.uid,
-                                    userName: '${admin.firstName} ${admin.lastName}',
-                                    userRole: admin.role,
-                                    timestamp: DateTime.now(),
-                                    metadata: {
-                                      'hospitalName': newHospital.name,
-                                      'city': newHospital.city,
-                                    },
-                                  ));
+                                  await superAdminProvider.logAction(
+                                    AuditLogEntity(
+                                      id: '',
+                                      action: isEditing
+                                          ? 'HOSPITAL_UPDATED'
+                                          : 'HOSPITAL_REGISTERED',
+                                      category: 'Admin',
+                                      description:
+                                          '${admin.firstName} ${isEditing ? 'updated' : 'registered'} hospital "${newHospital.name}".',
+                                      userId: admin.uid,
+                                      userName:
+                                          '${admin.firstName} ${admin.lastName}',
+                                      userRole: admin.role,
+                                      timestamp: DateTime.now(),
+                                      metadata: {
+                                        'hospitalName': newHospital.name,
+                                        'city': newHospital.city,
+                                      },
+                                    ),
+                                  );
                                 }
 
                                 if (mounted) {
@@ -977,7 +1011,9 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        isEditing ? 'Hospital Updated' : 'Hospital Registered',
+                                        isEditing
+                                            ? 'Hospital Updated'
+                                            : 'Hospital Registered',
                                       ),
                                       backgroundColor: Colors.green,
                                     ),
@@ -1077,7 +1113,7 @@ class _ManageHospitalsScreenState extends State<ManageHospitalsScreen> {
 // - _buildHospitalCard(): Ang matag item sa imong listahan. Naay icon sa hospital ug status badge para dali ra makita ang info.
 // - _statusBadge(): Helper para sa color-coding (Green kung Active, Red kung Inactive).
 // - _infoItem(): Simple widget para nindot ang pagpakita sa contact number nga naay icon.
-// - _inventorySnapshot(): Nag-pakita kung pila ka klase sa dugo ang gi-register sa hospital para sa ilang inventory.
+// - _inventorySnapshot(): Nag-pakita kung pila na ka klase sa dugo ang naa sa ilang inventory karon.
 // - _detailSection(): Helper para pag-grupo sa mga impormasyon sa hospital details modal para dili magsagol-sagol.
 // - _detailItem(): Ang matag detalye nga naay icon ug label sa sulod sa hospital details modal.
 // - _confirmDelete(): Ang "Are you sure?" nga dialog inig pindot nimo sa Remove button para dili aksidente ang pag-deactivate.

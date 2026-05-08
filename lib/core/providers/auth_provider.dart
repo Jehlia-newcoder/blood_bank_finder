@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../features/auth/domain/entities/user.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/infrastructure/repositories/firebase_auth_repository.dart';
-import '../../features/auth/infrastructure/mappers/user_mapper.dart';
 import '../../features/auth/application/use_cases/login_use_case.dart';
 import '../../features/auth/application/use_cases/auth_use_cases.dart';
 import '../../features/super_admin/domain/entities/audit_log.dart';

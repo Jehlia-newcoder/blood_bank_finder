@@ -44,9 +44,6 @@ class LocationService {
   /// Converts a text address to geographic coordinates.
   Future<Location?> getCoordinatesFromAddress(String address) async {
     if (kIsWeb) {
-      // Web fallback: PSGC API doesn't provide geocoding, and geocoding package
-      // has limited support. In a real app, you'd use Google Maps or Nominatim.
-      // For now, returning null for web as we are moving away from the custom backend.
       return null; 
     }
 
@@ -90,20 +87,16 @@ class LocationService {
     ],
   };
 
-  /// r:  PSGC Cloud API (/regions). s: Internal Cache / `getRegionsByIsland`.
   Future<List<Map<String, dynamic>>> getRegions() async {
     return _fetchData('/regions');
   }
 
-  ///r: `getRegions` / `islandGroupMapping`.s: UI Dropdowns (Signup/Hospitals).
-  /// rr: (Luzon, Visayas, or Mindanao).
   Future<List<Map<String, dynamic>>> getRegionsByIsland(String island) async {
     final allRegions = await getRegions();
     final allowedCodes = islandGroupMapping[island] ?? [];
     return allRegions.where((r) => allowedCodes.contains(r['code'])).toList();
   }
 
-  /// r: PSGC Cloud API (/cities-municipalities). s: UI Dropdowns / `BackfillService`.
   Future<List<Map<String, dynamic>>> getCitiesByIsland(String island) async {
     final regions = await getRegionsByIsland(island);
     final regionCodes = regions.map((r) => r['code']).toList();
@@ -116,7 +109,6 @@ class LocationService {
         .toList();
   }
 
-  /// r: PSGC Cloud API (/regions/{code}/cities-municipalities). s: UI Dropdowns (Cascading Logic).
   Future<List<Map<String, dynamic>>> getCitiesAndMunicipalities(
     String regionCode,
   ) async {
@@ -125,14 +117,13 @@ class LocationService {
     );
   }
 
-  /// r: PSGC Cloud API (/cities-municipalities/{code}/barangays). s: UI Dropdowns (Cascading Logic).
   Future<List<Map<String, dynamic>>> getBarangays(String cityCode) async {
     return _fetchData(
       '/cities-municipalities/$cityCode/barangays?per_page=500',
     );
   }
 
-  /// CORE LOGIC: The private worker method for all API calls.
+  ///  The private worker method for all API calls.
   /// r: `_cache` (In-memory) OR PSGC Cloud API. s: `_cache` (Persistence) and the requesting Method.
   Future<List<Map<String, dynamic>>> _fetchData(String endpoint) async {
     if (_cache.containsKey(endpoint)) {

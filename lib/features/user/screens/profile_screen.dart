@@ -4,15 +4,7 @@ import '../../../core/providers/auth_provider.dart';
 import '../../auth/domain/entities/user.dart';
 import '../../super_admin/presentation/providers/super_admin_provider.dart';
 
-// Methods in this file:
-// - initState()
-// - dispose()
 // - _saveProfile()
-// - build()
-// - setState()
-// - SizedBox()
-// - _buildProfileItem()
-// - _buildBloodGroupCard()
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -87,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // Or we can add it to AuthProvider.
       // For now, let's assume we want a clean DDD way.
       // I'll add 'updateUser' to SuperAdminProvider and use it here.
-      
+
       final superAdminProvider = context.read<SuperAdminProvider>();
       await superAdminProvider.updateUser(updatedUser);
 
@@ -438,7 +430,7 @@ class _BloodTypeBadge extends StatelessWidget {
       ),
     );
   }
-}}
+}
 
 // 
 // 

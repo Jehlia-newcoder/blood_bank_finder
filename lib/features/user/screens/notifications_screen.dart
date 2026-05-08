@@ -7,15 +7,7 @@ import '../../blood_request/presentation/providers/blood_request_provider.dart';
 import '../../notification/domain/entities/notification.dart';
 import '../../../core/providers/auth_provider.dart';
 
-// Methods in this file:
-// - build()
-// - GestureDetector()
 // - _showNotificationDetails()
-// - _detailRow()
-// - _getColorForType()
-// - _formatRelativeTime()
-// - _getIconForType()
-// - _formatDate()
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
@@ -88,7 +80,9 @@ class NotificationsScreen extends StatelessWidget {
                   );
                 }
 
-                final items = snapshot.data!.docs.map((doc) => NotificationEntity.fromFirestore(doc)).toList();
+                final items = snapshot.data!.docs
+                    .map((doc) => NotificationEntity.fromFirestore(doc))
+                    .toList();
 
                 return ListView.builder(
                   itemCount: items.length,
@@ -106,18 +100,25 @@ class NotificationsScreen extends StatelessWidget {
                         _showNotificationDetails(context, item);
                       },
                       child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: item.isRead ? Colors.black.withOpacity(0.02) : accentColor.withOpacity(0.08),
+                              color: item.isRead
+                                  ? Colors.black.withOpacity(0.02)
+                                  : accentColor.withOpacity(0.08),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
                           ],
-                          border: item.isRead ? Border.all(color: Colors.grey[100]!) : Border.all(color: accentColor.withOpacity(0.1)),
+                          border: item.isRead
+                              ? Border.all(color: Colors.grey[100]!)
+                              : Border.all(color: accentColor.withOpacity(0.1)),
                         ),
                         child: IntrinsicHeight(
                           child: Row(
@@ -125,7 +126,9 @@ class NotificationsScreen extends StatelessWidget {
                               Container(
                                 width: 5,
                                 decoration: BoxDecoration(
-                                  color: item.isRead ? Colors.grey[300] : accentColor,
+                                  color: item.isRead
+                                      ? Colors.grey[300]
+                                      : accentColor,
                                   borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(20),
                                     bottomLeft: Radius.circular(20),
@@ -136,7 +139,8 @@ class NotificationsScreen extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(16),
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         padding: const EdgeInsets.all(10),
@@ -153,13 +157,18 @@ class NotificationsScreen extends StatelessWidget {
                                       const SizedBox(width: 16),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
-                                                  _formatRelativeTime(item.createdAt),
+                                                  _formatRelativeTime(
+                                                    item.createdAt,
+                                                  ),
                                                   style: TextStyle(
                                                     color: Colors.grey[400],
                                                     fontSize: 10,
@@ -183,13 +192,25 @@ class NotificationsScreen extends StatelessWidget {
                                               item.title ?? 'Notification',
                                               style: TextStyle(
                                                 fontSize: 15,
-                                                fontWeight: item.isRead ? FontWeight.w600 : FontWeight.w800,
-                                                color: item.isRead ? Colors.black87 : Colors.black,
+                                                fontWeight: item.isRead
+                                                    ? FontWeight.w600
+                                                    : FontWeight.w800,
+                                                color: item.isRead
+                                                    ? Colors.black87
+                                                    : Colors.black,
                                               ),
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
-                                              item.body?.contains('Schedule:') ?? false ? item.body!.replaceAll('\n\n', '\n') : (item.body ?? ''),
+                                              item.body?.contains(
+                                                        'Schedule:',
+                                                      ) ??
+                                                      false
+                                                  ? item.body!.replaceAll(
+                                                      '\n\n',
+                                                      '\n',
+                                                    )
+                                                  : (item.body ?? ''),
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -217,10 +238,7 @@ class NotificationsScreen extends StatelessWidget {
     );
   }
 
-  void _showNotificationDetails(
-    BuildContext context,
-    NotificationEntity item,
-  ) {
+  void _showNotificationDetails(BuildContext context, NotificationEntity item) {
     final accentColor = _getColorForType(item.type);
     final String body = item.body ?? 'No additional details provided.';
     final bloodRequestProvider = context.read<BloodRequestProvider>();
@@ -359,7 +377,11 @@ class NotificationsScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.assignment_outlined, size: 16, color: Colors.blueGrey[700]),
+                              Icon(
+                                Icons.assignment_outlined,
+                                size: 16,
+                                color: Colors.blueGrey[700],
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 'CASE SUMMARY',
@@ -373,17 +395,35 @@ class NotificationsScreen extends StatelessWidget {
                             ],
                           ),
                           const Divider(height: 24),
-                          _detailRow(Icons.person_outline, 'Patient', req.patientName ?? 'N/A'),
-                          _detailRow(Icons.water_drop_outlined, 'Blood Type', req.bloodType),
-                          _detailRow(Icons.layers_outlined, 'Quantity', '${req.quantity.toInt()} Units'),
+                          _detailRow(
+                            Icons.person_outline,
+                            'Patient',
+                            req.patientName ?? 'N/A',
+                          ),
+                          _detailRow(
+                            Icons.water_drop_outlined,
+                            'Blood Type',
+                            req.bloodType,
+                          ),
+                          _detailRow(
+                            Icons.layers_outlined,
+                            'Quantity',
+                            '${req.quantity.toInt()} Units',
+                          ),
                           _detailRow(
                             Icons.emergency_outlined,
                             'Urgency',
                             req.urgency ?? 'Regular',
-                            valueColor: req.urgency == 'Emergency' ? Colors.red[700] : null,
+                            valueColor: req.urgency == 'Emergency'
+                                ? Colors.red[700]
+                                : null,
                           ),
                           if (req.hospitalWard != null)
-                            _detailRow(Icons.meeting_room_outlined, 'Location', req.hospitalWard!),
+                            _detailRow(
+                              Icons.meeting_room_outlined,
+                              'Location',
+                              req.hospitalWard!,
+                            ),
                         ],
                       ),
                     );
@@ -397,7 +437,12 @@ class NotificationsScreen extends StatelessWidget {
     );
   }
 
-  Widget _detailRow(IconData icon, String label, String value, {Color? valueColor}) {
+  Widget _detailRow(
+    IconData icon,
+    String label,
+    String value, {
+    Color? valueColor,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
@@ -406,7 +451,11 @@ class NotificationsScreen extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             '$label:',
-            style: TextStyle(color: Colors.grey[500], fontSize: 13, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              color: Colors.grey[500],
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -469,7 +518,7 @@ class NotificationsScreen extends StatelessWidget {
     if (date == null) return '';
     return '${date.day}/${date.month} ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
   }
-}}
+}
 
 // 
 // 

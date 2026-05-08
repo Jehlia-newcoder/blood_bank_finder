@@ -878,7 +878,7 @@ class _BloodRequestsListScreenState extends State<BloodRequestsListScreen> {
       ),
     );
   }
-}}
+}
 
 // 
 // 

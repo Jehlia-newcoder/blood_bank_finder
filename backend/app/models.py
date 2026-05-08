@@ -64,14 +64,14 @@ class BloodRequestBase(BaseModel):
     userName: str
     type: str # 'Request' or 'Donate'
     bloodType: str
-    status: str = "pending" # Standard lifecycle: pending -> on progress -> completed/rejected.
+    status: str = "pending" # lifecycle: pending -> on progress -> completed/rejected.
     hospitalId: str
     hospitalName: str
     contactNumber: str
     quantity: float
     # New medical fields
     patientName: Optional[str] = None
-    patientHospital: Optional[str] = None # NEW: Specify where the patient is admitted.
+    patientHospital: Optional[str] = None # Specify where the patient is admitted.
     urgency: Optional[str] = "Regular" # 'Emergency', 'Regular', 'Scheduled'
     hospitalWard: Optional[str] = None
     medicalReason: Optional[str] = None

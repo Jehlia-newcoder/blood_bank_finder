@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood Bank Finder - Database ERD</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         :root {
@@ -31,7 +34,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image: 
+            background-image:
                 radial-gradient(circle at 10% 20%, rgba(239, 68, 68, 0.05) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 20%);
             color: var(--text-primary);
@@ -49,7 +52,7 @@
             text-align: center;
             padding: 2rem;
             background: linear-gradient(to bottom, rgba(15, 23, 42, 0) 0%, var(--bg-color) 100%),
-                        url('https://images.unsplash.com/photo-1615461066841-6116ecaaba7f?q=80&w=2000&auto=format&fit=crop') center/cover;
+                url('https://images.unsplash.com/photo-1615461066841-6116ecaaba7f?q=80&w=2000&auto=format&fit=crop') center/cover;
             position: relative;
         }
 
@@ -76,7 +79,6 @@
             font-weight: 700;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.02em;
         }
@@ -212,8 +214,15 @@
             font-weight: 700;
         }
 
-        .tag-pk { background: rgba(251, 191, 36, 0.1); color: var(--pk-color); }
-        .tag-fk { background: rgba(96, 165, 250, 0.1); color: var(--fk-color); }
+        .tag-pk {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--pk-color);
+        }
+
+        .tag-fk {
+            background: rgba(96, 165, 250, 0.1);
+            color: var(--fk-color);
+        }
 
         .relationships-list {
             display: grid;
@@ -254,23 +263,42 @@
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-color); }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .entities-grid { grid-template-columns: 1fr; }
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .entities-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <header>
         <div class="header-content">
             <h1>System Architecture ERD</h1>
-            <p class="subtitle">100% accurate database schema for the Blood Bank Finder system based on actual implementation models.</p>
+            <p class="subtitle">100% accurate database schema for the Blood Bank Finder system based on actual
+                implementation models.</p>
         </div>
     </header>
 
@@ -393,7 +421,8 @@ erDiagram
     }
                 </pre>
             </div>
-            <p class="rel-desc" style="text-align: center;">Note: This ERD represents the logical relational mapping of the Firestore NoSQL collections.</p>
+            <p class="rel-desc" style="text-align: center;">Note: This ERD represents the logical relational mapping of
+                the Firestore NoSQL collections.</p>
         </section>
 
         <!-- ENTITIES DETAIL SECTION -->
@@ -407,15 +436,24 @@ erDiagram
                         <span class="entity-type">Collection</span>
                     </div>
                     <div class="attributes-list">
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> uid</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">email</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">role</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">firstName</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">lastName</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">mobile</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">bloodGroup</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span> hospitalId</span> <span class="attr-type">string?</span></div>
-                        <div class="attribute-item"><span class="attr-name">isBanned</span> <span class="attr-type">bool</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span>
+                                uid</span> <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">email</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">role</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">firstName</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">lastName</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">mobile</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">bloodGroup</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span>
+                                hospitalId</span> <span class="attr-type">string?</span></div>
+                        <div class="attribute-item"><span class="attr-name">isBanned</span> <span
+                                class="attr-type">bool</span></div>
                     </div>
                 </div>
 
@@ -426,13 +464,20 @@ erDiagram
                         <span class="entity-type">Collection</span>
                     </div>
                     <div class="attributes-list">
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> id</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">name</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">availableBloodTypes</span> <span class="attr-type">list&lt;str&gt;</span></div>
-                        <div class="attribute-item"><span class="attr-name">latitude</span> <span class="attr-type">float</span></div>
-                        <div class="attribute-item"><span class="attr-name">longitude</span> <span class="attr-type">float</span></div>
-                        <div class="attribute-item"><span class="attr-name">isActive</span> <span class="attr-type">bool</span></div>
-                        <div class="attribute-item"><span class="attr-name">contactNumber</span> <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> id</span>
+                            <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">name</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">availableBloodTypes</span> <span
+                                class="attr-type">list&lt;str&gt;</span></div>
+                        <div class="attribute-item"><span class="attr-name">latitude</span> <span
+                                class="attr-type">float</span></div>
+                        <div class="attribute-item"><span class="attr-name">longitude</span> <span
+                                class="attr-type">float</span></div>
+                        <div class="attribute-item"><span class="attr-name">isActive</span> <span
+                                class="attr-type">bool</span></div>
+                        <div class="attribute-item"><span class="attr-name">contactNumber</span> <span
+                                class="attr-type">string</span></div>
                     </div>
                 </div>
 
@@ -443,14 +488,22 @@ erDiagram
                         <span class="entity-type">Collection</span>
                     </div>
                     <div class="attributes-list">
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> id</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span> userId</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span> hospitalId</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">type</span> <span class="attr-type">str (Req/Don)</span></div>
-                        <div class="attribute-item"><span class="attr-name">status</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">quantity</span> <span class="attr-type">float</span></div>
-                        <div class="attribute-item"><span class="attr-name">urgency</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">adminMessage</span> <span class="attr-type">string?</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> id</span>
+                            <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span>
+                                userId</span> <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span>
+                                hospitalId</span> <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">type</span> <span class="attr-type">str
+                                (Req/Don)</span></div>
+                        <div class="attribute-item"><span class="attr-name">status</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">quantity</span> <span
+                                class="attr-type">float</span></div>
+                        <div class="attribute-item"><span class="attr-name">urgency</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">adminMessage</span> <span
+                                class="attr-type">string?</span></div>
                     </div>
                 </div>
 
@@ -461,9 +514,12 @@ erDiagram
                         <span class="entity-type">Sub-collection</span>
                     </div>
                     <div class="attributes-list">
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> blood_type</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">units</span> <span class="attr-type">float</span></div>
-                        <div class="attribute-item"><span class="attr-name">last_updated</span> <span class="attr-type">datetime</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span>
+                                blood_type</span> <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">units</span> <span
+                                class="attr-type">float</span></div>
+                        <div class="attribute-item"><span class="attr-name">last_updated</span> <span
+                                class="attr-type">datetime</span></div>
                     </div>
                 </div>
 
@@ -474,12 +530,18 @@ erDiagram
                         <span class="entity-type">Collection</span>
                     </div>
                     <div class="attributes-list">
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> id</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span> userId</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span> requestId</span> <span class="attr-type">string?</span></div>
-                        <div class="attribute-item"><span class="attr-name">isRead</span> <span class="attr-type">bool</span></div>
-                        <div class="attribute-item"><span class="attr-name">title</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">body</span> <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> id</span>
+                            <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span>
+                                userId</span> <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-fk">FK</span>
+                                requestId</span> <span class="attr-type">string?</span></div>
+                        <div class="attribute-item"><span class="attr-name">isRead</span> <span
+                                class="attr-type">bool</span></div>
+                        <div class="attribute-item"><span class="attr-name">title</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">body</span> <span
+                                class="attr-type">string</span></div>
                     </div>
                 </div>
 
@@ -490,10 +552,14 @@ erDiagram
                         <span class="entity-type">Collection</span>
                     </div>
                     <div class="attributes-list">
-                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> id</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">participants</span> <span class="attr-type">list&lt;str&gt;</span></div>
-                        <div class="attribute-item"><span class="attr-name">lastMessage</span> <span class="attr-type">string</span></div>
-                        <div class="attribute-item"><span class="attr-name">lastUpdateTime</span> <span class="attr-type">datetime</span></div>
+                        <div class="attribute-item"><span class="attr-name"><span class="tag tag-pk">PK</span> id</span>
+                            <span class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">participants</span> <span
+                                class="attr-type">list&lt;str&gt;</span></div>
+                        <div class="attribute-item"><span class="attr-name">lastMessage</span> <span
+                                class="attr-type">string</span></div>
+                        <div class="attribute-item"><span class="attr-name">lastUpdateTime</span> <span
+                                class="attr-type">datetime</span></div>
                     </div>
                 </div>
             </div>
@@ -505,23 +571,28 @@ erDiagram
             <div class="relationships-list">
                 <div class="rel-item">
                     <div class="rel-title">User ↔ BloodRequest <span class="rel-cardinality">(1:N)</span></div>
-                    <div class="rel-desc">A single user can initiate multiple blood requests or donations over time. Each request is linked to exactly one user.</div>
+                    <div class="rel-desc">A single user can initiate multiple blood requests or donations over time.
+                        Each request is linked to exactly one user.</div>
                 </div>
                 <div class="rel-item">
                     <div class="rel-title">Hospital ↔ BloodRequest <span class="rel-cardinality">(1:N)</span></div>
-                    <div class="rel-desc">A hospital handles many requests from different users. Each request is targeted at a specific hospital.</div>
+                    <div class="rel-desc">A hospital handles many requests from different users. Each request is
+                        targeted at a specific hospital.</div>
                 </div>
                 <div class="rel-item">
                     <div class="rel-title">Hospital ↔ Inventory <span class="rel-cardinality">(1:N)</span></div>
-                    <div class="rel-desc">Each hospital maintains its own inventory levels. In Firestore, this is implemented as a sub-collection for optimal scoping.</div>
+                    <div class="rel-desc">Each hospital maintains its own inventory levels. In Firestore, this is
+                        implemented as a sub-collection for optimal scoping.</div>
                 </div>
                 <div class="rel-item">
                     <div class="rel-title">User ↔ ChatRoom <span class="rel-cardinality">(N:M)</span></div>
-                    <div class="rel-desc">Users can participate in multiple chats, and each chat has multiple participants (stored as an array of UIDs).</div>
+                    <div class="rel-desc">Users can participate in multiple chats, and each chat has multiple
+                        participants (stored as an array of UIDs).</div>
                 </div>
                 <div class="rel-item">
                     <div class="rel-title">ChatRoom ↔ Message <span class="rel-cardinality">(1:N)</span></div>
-                    <div class="rel-desc">A chat room contains an ordered stream of messages. Messages are scoped to a specific room ID.</div>
+                    <div class="rel-desc">A chat room contains an ordered stream of messages. Messages are scoped to a
+                        specific room ID.</div>
                 </div>
             </div>
         </section>
@@ -532,7 +603,7 @@ erDiagram
     </footer>
 
     <script>
-        mermaid.initialize({ 
+        mermaid.initialize({
             startOnLoad: true,
             theme: 'base',
             themeVariables: {
@@ -546,4 +617,5 @@ erDiagram
         });
     </script>
 </body>
+
 </html>

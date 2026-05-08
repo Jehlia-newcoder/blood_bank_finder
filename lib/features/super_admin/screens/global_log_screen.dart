@@ -281,7 +281,7 @@ class GlobalLogScreen extends StatelessWidget {
       ),
     );
   }
-}}
+}
 
 // 
 // 

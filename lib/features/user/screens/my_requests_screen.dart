@@ -7,10 +7,6 @@ import '../../hospital/domain/entities/hospital.dart';
 import '../../hospital/presentation/providers/hospital_provider.dart';
 import '../../../core/providers/auth_provider.dart';
 
-// Methods in this file:
-// - build()
-// - _statusColor()
-// - _statusChip()
 // - _buildInstructionSection()
 
 class MyRequestsScreen extends StatelessWidget {
@@ -45,9 +41,11 @@ class MyRequestsScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.error_outline,
-                            size: 48,
-                            color: theme.colorScheme.error),
+                        Icon(
+                          Icons.error_outline,
+                          size: 48,
+                          color: theme.colorScheme.error,
+                        ),
                         const SizedBox(height: 8),
                         Text(
                           'Failed to load history.\n${snapshot.error}',
@@ -92,21 +90,16 @@ class MyRequestsScreen extends StatelessWidget {
                 }
 
                 // List
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    // Streams update automatically, but this provides feedback
-                    await Future.delayed(const Duration(milliseconds: 500));
-                  },
-                  child: ListView.separated(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 20),
-                    itemCount: items.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 12),
-                    itemBuilder: (context, index) =>
-                        _RequestCard(item: items[index]),
+                return ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 20,
                   ),
+                  itemCount: items.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 12),
+                  itemBuilder: (context, index) =>
+                      _RequestCard(item: items[index]),
                 );
               },
             ),
@@ -173,7 +166,9 @@ class _RequestCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          DateFormat('MMM d, yyyy').format(item.createdAt).toUpperCase(),
+                          DateFormat(
+                            'MMM d, yyyy',
+                          ).format(item.createdAt).toUpperCase(),
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontSize: 10,
@@ -228,14 +223,20 @@ class _RequestCard extends StatelessWidget {
                                   ),
                                 ),
                               FutureBuilder<HospitalEntity?>(
-                                future: hospitalProvider.getHospital(item.hospitalId),
+                                future: hospitalProvider.getHospital(
+                                  item.hospitalId,
+                                ),
                                 builder: (context, snapshot) {
-                                  if (snapshot.hasData && snapshot.data != null) {
+                                  if (snapshot.hasData &&
+                                      snapshot.data != null) {
                                     return Text(
                                       snapshot.data!.address,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 12,
+                                      ),
                                     );
                                   }
                                   return const SizedBox(height: 14);
@@ -249,23 +250,38 @@ class _RequestCard extends StatelessWidget {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        Icon(Icons.water_drop_outlined, size: 14, color: Colors.grey[600]),
+                        Icon(
+                          Icons.water_drop_outlined,
+                          size: 14,
+                          color: Colors.grey[600],
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           '${item.quantity.toInt()} Unit(s)',
-                          style: TextStyle(color: Colors.grey[700], fontSize: 13, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         if (item.isRequest && item.urgency == 'Emergency') ...[
                           const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: const Text(
                               'EMERGENCY',
-                              style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -273,17 +289,26 @@ class _RequestCard extends StatelessWidget {
                         if (item.preferredDate != null)
                           Row(
                             children: [
-                              Icon(Icons.calendar_month_outlined, size: 14, color: Colors.grey[600]),
+                              Icon(
+                                Icons.calendar_month_outlined,
+                                size: 14,
+                                color: Colors.grey[600],
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 '${item.preferredDate} @ ${item.preferredTime}',
-                                style: TextStyle(color: Colors.grey[700], fontSize: 11, fontWeight: FontWeight.w700),
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ],
                           ),
                       ],
                     ),
-                    if (item.adminMessage != null && item.adminMessage!.isNotEmpty) ...[
+                    if (item.adminMessage != null &&
+                        item.adminMessage!.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Container(
                         padding: const EdgeInsets.all(12),
@@ -295,12 +320,20 @@ class _RequestCard extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.info_outline, size: 14, color: Colors.blueGrey),
+                            const Icon(
+                              Icons.info_outline,
+                              size: 14,
+                              color: Colors.blueGrey,
+                            ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 item.adminMessage!,
-                                style: TextStyle(color: Colors.blueGrey[700], fontSize: 12, height: 1.4),
+                                style: TextStyle(
+                                  color: Colors.blueGrey[700],
+                                  fontSize: 12,
+                                  height: 1.4,
+                                ),
                               ),
                             ),
                           ],
@@ -356,7 +389,11 @@ class _RequestCard extends StatelessWidget {
           Expanded(
             child: Text(
               'Please visit the hospital at your scheduled time.',
-              style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: color,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -364,7 +401,7 @@ class _RequestCard extends StatelessWidget {
     );
   }
 }
-}
+
 
 // 
 // 

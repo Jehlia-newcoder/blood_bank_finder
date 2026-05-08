@@ -7,15 +7,13 @@ import '../../../shared/widgets/custom_button.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../../../shared/widgets/location_picker.dart';
 import 'landing_screen.dart';
-import '../../user/screens/user_home_screen.dart';
 import 'otp_screen.dart';
 
-// Methods in this file:
+
 // - _signup()
 // - _completeSignup()
-// - build()
 // - PhLocationPicker()
-// - _buildDropdown()
+
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -224,45 +222,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-/// FILE: signup_screen.dart
-///
-/// DESCRIPTION:
-/// This screen handles the comprehensive registration process for new users.
-/// It collects personal identity, health information (blood group),
-/// and detailed location data.
-///
-/// DATA FLOW OVERVIEW:
-/// 1. RECEIVES DATA FROM:
-///    - User Input: Multiple TextFields and Dropdowns.
-///    - 'PhLocationPicker': A dedicated widget for Philippine address hierarchy.
-/// 2. PROCESSING:
-///    - Data Aggregation: Collects all inputs into a single '_formData' map.
-///    - Validation: Ensures all required fields (identity, location, credentials) are filled.
-/// 3. SENDS DATA TO:
-///    - 'AuthProvider.signup': Sends the full profile map to the provider, which
-///      calls the backend to create both the Auth account and Firestore doc.
-/// 4. OUTPUTS/GUI:
-///    - A long, scrollable form divided into 'Personal', 'Location', and 'Account' sections.
-///    - Direct navigation to the 'UserHomeScreen' upon successful registration.
-
-//onsaved: (v) => _formData['key'] = v,
-//ang v kay ang value sa textfield.
-//phlocationpicker: gikan sa location_picker.dart
-
-//ang _formData kay ang data sa user og ang _formkey kay ang key sa form.
-//ang _signup kay ang function sa pag-signup.
-//ang _buildDropdown kay ang function sa pag-build ng dropdown.
-
-
 // 
 // 
 // 

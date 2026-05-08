@@ -11,11 +11,18 @@ import '../../chat/presentation/providers/chat_provider.dart';
 import '../../chat/screens/chat_room_screen.dart';
 import '../../hospital/domain/entities/inventory.dart';
 
-// _initLocation() - Location Service
-// - _calculateDistance()- Location Service
-// Hospital Map View - Hospital Map View
+
+//hosptal.dart(entity), hosptalmapper,
+
+// _initLocation() -//locationservce, geolocator - 
+// - _calculateDistance()
+
 // showHospitalDetails() - Hospital Provider
-// showLocationPicker()- Location Service
+// Hospital Map View - Hospital Map View, geolocator, v only.
+
+// showLocationPicker()- //Location Service
+
+ 
 
 class FindBloodBankScreen extends StatefulWidget {
   const FindBloodBankScreen({super.key});
@@ -288,23 +295,17 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(h.city),
-                                    if (_userPosition != null)
-                                      Text(
-                                        '${_calculateDistance(h.latitude, h.longitude).toStringAsFixed(1)} km away',
-                                        style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
+                                      if (_userPosition != null)
+                                        Text(
+                                          '${_calculateDistance(h.latitude, h.longitude).toStringAsFixed(1)} km away',
+                                          style: TextStyle(
+                                            color: Theme.of(
+                                              context,
+                                            ).primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                          ),
                                         ),
-                                      )
-                                    else
-                                      const Text(
-                                        'Distance unavailable',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 11,
-                                        ),
-                                      ),
                                     ],
                                   ),
                                   trailing: const Icon(
@@ -395,11 +396,6 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                             ),
-                          )
-                        else
-                          const Text(
-                            'Location services off',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
                       ],
                     ),
@@ -566,7 +562,7 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
                                   const SizedBox(width: 12),
                                   _legendDot(
                                     Colors.orange.shade600,
-                                    'Low (<5)',
+                                    'Low (≤5)',
                                   ),
                                   const SizedBox(width: 12),
                                   _legendDot(Colors.red.shade400, 'Empty'),
@@ -918,7 +914,7 @@ class _FindBloodBankScreenState extends State<FindBloodBankScreen> {
       ),
     );
   }
-}}
+}
 
 // 
 // 

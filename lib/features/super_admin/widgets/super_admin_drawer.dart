@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blood_bank_finder/core/providers/auth_provider.dart';
-import 'package:blood_bank_finder/features/auth/screens/login_screen.dart';
 import 'package:blood_bank_finder/features/auth/screens/landing_screen.dart';
 import 'package:blood_bank_finder/features/super_admin/screens/super_admin_dashboard.dart';
 import 'package:blood_bank_finder/features/super_admin/screens/manage_hospitals_screen.dart';
 import 'package:blood_bank_finder/features/super_admin/screens/manage_users_screen.dart';
 import 'package:blood_bank_finder/features/super_admin/screens/global_log_screen.dart';
-import 'package:blood_bank_finder/features/super_admin/screens/audit_trail_screen.dart';
 import 'package:blood_bank_finder/features/chat/screens/chat_list_screen.dart';
 
 class SuperAdminDrawer extends StatelessWidget {
@@ -51,9 +49,7 @@ class SuperAdminDrawer extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const ChatListScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const ChatListScreen()),
               );
             },
           ),
@@ -83,14 +79,6 @@ class SuperAdminDrawer extends StatelessWidget {
             onTap: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const GlobalLogScreen()),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.security),
-            title: const Text('Security Audit'),
-            onTap: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const AuditTrailScreen()),
             ),
           ),
           const Spacer(),
